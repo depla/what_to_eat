@@ -1,0 +1,45 @@
+require("dotenv").config();
+const axios = require('axios');
+const { OAuth2Client } = require('google-auth-library');
+const { PrismaClient } = require('@prisma/client');
+
+const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const client = new OAuth2Client(CLIENT_ID);
+const prisma = new PrismaClient();
+
+module.exports.googleLogin = async (req, res) => {
+    const { tokenId } = req.body;
+    try {
+        const ticket = await client.verifyIdToken({
+            idToken: tokenId,
+            audience: CLIENT_ID,
+        });
+        const payload = ticket.getPayload();
+        const user = { name: payload['name'], email: payload['email'], picture: payload['picture'] }
+        // Set HTTP-only cookie with JWT token
+        res.cookie('jwt', tokenId, { httpOnly: true });
+
+        //Add to DB if new user
+        const existingEntry = await prisma.user.findUnique({
+            where: {
+                email: payload['email'],
+            },
+        });
+        if (!existingEntry) {
+            await prisma.user.create({
+                data: {
+                    email: payload['email'],
+                },
+            });
+        }
+        res.status(200).send(user);
+    } catch (error) {
+        console.error('Error Logging In', error);
+        res.status(500).send('Internal server error');
+    }
+}
+
+module.exports.googleLogout = async (req, res) => {
+    res.clearCookie('jwt');
+    res.status(200).send("Logout Successful")
+}
