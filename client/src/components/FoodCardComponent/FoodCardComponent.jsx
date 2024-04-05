@@ -11,9 +11,11 @@ import fourRating from "../../assets/Review Ribbon/Desktop/small_16/Review_Ribbo
 import fourHalfRating from "../../assets/Review Ribbon/Desktop/small_16/Review_Ribbon_small_16_4_half.png"
 import fiveRating from "../../assets/Review Ribbon/Desktop/small_16/Review_Ribbon_small_16_5.png"
 import SaveFoodButtonComponent from './SaveFoodButtonComponent';
+import { useLocalStorageContext } from '../../contexts/LocalStorageContext';
 
 export default function FoodCardComponent(props) {
 
+    const userData = useLocalStorageContext();
 
     const handleClick = () => {
         props.onClick(props.business); // Call the onClick callback function with data as argument
@@ -35,7 +37,7 @@ export default function FoodCardComponent(props) {
 
             <Group justify="space-between" mt="md" mb="xs">
                 <Text fw={500}>{props.business.name}</Text>
-                {<SaveFoodButtonComponent></SaveFoodButtonComponent>}
+                {userData !== 'null' && <SaveFoodButtonComponent></SaveFoodButtonComponent>}
             </Group>
             <Group mb="xs">
                 <img src={getRatingPNG(props.business.rating)} alt={props.business.rating + " rating"} />

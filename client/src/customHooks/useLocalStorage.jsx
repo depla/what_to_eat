@@ -23,6 +23,7 @@ const useLocalStorage = (key, initialValue) => {
     const setLocalStorage = (newValue) => {
         setValue(newValue);
         localStorage.setItem(key, JSON.stringify(newValue));
+        window.dispatchEvent(new Event("storage"));
     };
 
     return [value, setLocalStorage];
