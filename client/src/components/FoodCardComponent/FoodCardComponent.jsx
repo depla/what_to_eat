@@ -15,7 +15,8 @@ import { useLocalStorageContext } from '../../contexts/LocalStorageContext';
 
 export default function FoodCardComponent(props) {
 
-    const userData = useLocalStorageContext();
+    const userData = props.user;
+    const savedBusinesses = props.savedBusinesses;
 
     const handleClick = () => {
         props.onClick(props.business); // Call the onClick callback function with data as argument
@@ -37,7 +38,7 @@ export default function FoodCardComponent(props) {
 
             <Group justify="space-between" mt="md" mb="xs">
                 <Text fw={500}>{props.business.name}</Text>
-                {userData !== 'null' && <SaveFoodButtonComponent></SaveFoodButtonComponent>}
+                {userData !== 'null' && <SaveFoodButtonComponent businessId={props.business.id} user={userData} savedBusinesses={savedBusinesses}></SaveFoodButtonComponent>}
             </Group>
             <Group mb="xs">
                 <img src={getRatingPNG(props.business.rating)} alt={props.business.rating + " rating"} />

@@ -1,19 +1,40 @@
 import { useLocation } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './ChoosePage.css'
 import FoodCardComponent from '../../components/FoodCardComponent/FoodCardComponent';
+import { useLocalStorageContext } from '../../contexts/LocalStorageContext';
 
 export default function ChoosePage() {
     const { state } = useLocation();
     var businesses = state?.businesses;
+    const userData = useLocalStorageContext();
 
     const [choices, setChoices] = useState(getRandomItemsFromArray(businesses, 20));
-    console.log("choices", choices)
-    console.log("business", businesses)
+    const [savedBusinesses, setSavedBusinesses] = useState(null);
+
+    // console.log("choices", choices)
+    // console.log("business", businesses)
     const [leftPointer, setLeftPointer] = useState(0);
     const [rightPointer, setRightPointer] = useState(choices.length - 1);
     const [winner, setWinner] = useState(-1);
-    console.log(choices)
+    // console.log(choices)
+
+    //Need to get all saved businesses in a list from database
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                console.log(userData)
+                const response = await axios.get('/api/businesses', { params: { user: userData } }); // Adjust the URL to your API endpoint
+                setSavedBusinesses(response.data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+        if (userData && userData != 'null') {
+            fetchData(); // Call the function to fetch data when the component mounts
+        }
+    }, [userData]);
 
     const handleLeftChildClick = (chosenBusiness) => {
         console.log('Data from clicked child:', chosenBusiness);
@@ -27,14 +48,14 @@ export default function ChoosePage() {
     };
 
     const handleRightChildClick = (chosenBusiness) => {
-        console.log('Data from clicked child:', chosenBusiness);
+        // console.log('Data from clicked child:', chosenBusiness);
         if (leftPointer < choices.length - 1 && (leftPointer + 1) < rightPointer) {
             setLeftPointer(prevLeft => prevLeft + 1);
         }
         else {
             setWinner(rightPointer)
         }
-        console.log(leftPointer + " " + rightPointer)
+        // console.log(leftPointer + " " + rightPointer)
     };
 
     if (winner !== -1) {
@@ -42,15 +63,15 @@ export default function ChoosePage() {
         return (
             <div className='winner'>
                 <p>You've chosen:</p>
-                <FoodCardComponent onClick={handleLeftChildClick} business={choices[winner]} isWinner={true}></FoodCardComponent>
+                <FoodCardComponent onClick={handleLeftChildClick} business={choices[winner]} isWinner={true} user={userData} savedBusinesses={savedBusinesses}></FoodCardComponent>
             </div>
         )
     }
 
     return (
         <div className='choose'>
-            <FoodCardComponent onClick={handleLeftChildClick} business={choices[leftPointer]} isWinner={false}></FoodCardComponent>
-            <FoodCardComponent onClick={handleRightChildClick} business={choices[rightPointer]} isWinner={false}></FoodCardComponent>
+            <FoodCardComponent onClick={handleLeftChildClick} business={choices[leftPointer]} isWinner={false} user={userData} savedBusinesses={savedBusinesses}></FoodCardComponent>
+            <FoodCardComponent onClick={handleRightChildClick} business={choices[rightPointer]} isWinner={false} user={userData} savedBusinesses={savedBusinesses}></FoodCardComponent>
         </div>
     );
 
