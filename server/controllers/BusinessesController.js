@@ -3,8 +3,8 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 module.exports.createSavedBusiness = async (req, res) => {
-    const { user, businessId } = req.body;
-    const userObj = JSON.parse(user);
+    const { businessId } = req.body;
+    const userEmail = res.locals.userEmail;
 
     // Check if the saved Yelp business already exists
     var savedBusiness = await prisma.savedYelpBusiness.findUnique({
@@ -25,7 +25,7 @@ module.exports.createSavedBusiness = async (req, res) => {
     // Find the user by email and connect the saved business
     const foundUser = await prisma.user.findUnique({
         where: {
-            email: userObj["email"]
+            email: userEmail
         }
     });
 
@@ -50,12 +50,11 @@ module.exports.createSavedBusiness = async (req, res) => {
 }
 
 module.exports.getSavedBusinesses = async (req, res) => {
-    const { user } = req.query;
-    const userObj = JSON.parse(user);
+    const userEmail = res.locals.userEmail;
 
     const savedBusinesses = await prisma.user.findUnique({
         where: {
-            email: userObj["email"]
+            email: userEmail
         },
         select: {
             saved_businesses: {
@@ -72,13 +71,13 @@ module.exports.getSavedBusinesses = async (req, res) => {
 }
 
 module.exports.deleteSavedBusiness = async (req, res) => {
-    const { user, businessId } = req.body;
-    const userObj = JSON.parse(user);
+    const { businessId } = req.body;
+    const userEmail = res.locals.userEmail;
 
     // Find the user by email
     const foundUser = await prisma.user.findUnique({
         where: {
-            email: userObj["email"]
+            email: userEmail
         },
         include: {
             saved_businesses: true // Include the saved businesses for this user

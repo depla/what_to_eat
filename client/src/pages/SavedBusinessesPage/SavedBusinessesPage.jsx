@@ -46,7 +46,7 @@ export default function SavedBusinessesPage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('/api/businesses', { params: { user: userData } });
+                const response = await axios.get('/api/businesses');
                 setSavedBusinessIds(response.data);
                 // Fetch data for each ID with a delay between API calls
                 response.data.forEach((id) => {

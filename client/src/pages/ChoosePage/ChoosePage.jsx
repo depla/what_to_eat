@@ -25,7 +25,7 @@ export default function ChoosePage() {
         const fetchData = async () => {
             try {
                 console.log(userData)
-                const response = await axios.get('/api/businesses', { params: { user: userData } });
+                const response = await axios.get('/api/businesses');
                 setSavedBusinesses(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);

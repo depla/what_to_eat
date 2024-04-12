@@ -15,7 +15,7 @@ module.exports.googleLogin = async (req, res) => {
             audience: CLIENT_ID,
         });
         const payload = ticket.getPayload();
-        const user = { name: payload['name'], email: payload['email'], picture: payload['picture'] }
+        const user = { name: payload['name'], picture: payload['picture'] }
         // Set HTTP-only cookie with JWT token
         res.cookie('jwt', tokenId, { httpOnly: true });
 
