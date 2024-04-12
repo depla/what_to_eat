@@ -1,15 +1,9 @@
 import { Menu, Text, rem, Avatar } from '@mantine/core';
 import {
-    IconSettings,
-    IconSearch,
-    IconPhoto,
-    IconMessageCircle,
-    IconTrash,
-    IconArrowsLeftRight,
     IconLogout,
-    IconStar,
     IconBookmark,
 } from '@tabler/icons-react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 export default function AvatarMenuComponent(props) {
@@ -27,7 +21,10 @@ export default function AvatarMenuComponent(props) {
 
             <Menu.Dropdown>
                 <Menu.Label>Logged in as {props.username}</Menu.Label>
-                <Menu.Item leftSection={<IconBookmark style={{ width: rem(14), height: rem(14) }} />}>
+                <Menu.Item
+                    leftSection={<IconBookmark style={{ width: rem(14), height: rem(14) }} />}
+                    component={Link}
+                    to={'/saved-businesses'}>
                     View Saved
                 </Menu.Item>
 

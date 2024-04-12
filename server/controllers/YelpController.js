@@ -20,3 +20,15 @@ module.exports.getYelpRecs = async (req, res) => {
             console.log(error);
         });
 }
+
+module.exports.getYelpBusiness = async (req, res) => {
+    const { businessId } = req.body;
+    console.log("got here", businessId)
+    yelpClient.business(businessId).then(response => {
+        console.log(response.jsonBody);
+        res.send(response.jsonBody);
+    }).catch(e => {
+        console.log(e);
+    });
+
+}

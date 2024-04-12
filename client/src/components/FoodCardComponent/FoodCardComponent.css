@@ -1,5 +1,9 @@
 .card {
     margin: 2%;
     width: 320px;
-    height: 430px;
+    height: 400px;
+}
+
+.cardInfo {
+    padding: 1em;
 }

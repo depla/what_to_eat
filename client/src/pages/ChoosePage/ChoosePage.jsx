@@ -25,26 +25,26 @@ export default function ChoosePage() {
         const fetchData = async () => {
             try {
                 console.log(userData)
-                const response = await axios.get('/api/businesses', { params: { user: userData } }); // Adjust the URL to your API endpoint
+                const response = await axios.get('/api/businesses', { params: { user: userData } });
                 setSavedBusinesses(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
         if (userData && userData != 'null') {
-            fetchData(); // Call the function to fetch data when the component mounts
+            fetchData();
         }
     }, [userData]);
 
     const handleLeftChildClick = (chosenBusiness) => {
-        console.log('Data from clicked child:', chosenBusiness);
+        // console.log('Data from clicked child:', chosenBusiness);
         if (rightPointer > 0 && (rightPointer - 1) > leftPointer) {
             setRightPointer(prevRight => prevRight - 1);
         }
         else {
             setWinner(leftPointer)
         }
-        console.log(leftPointer + " " + rightPointer)
+        // console.log(leftPointer + " " + rightPointer)
     };
 
     const handleRightChildClick = (chosenBusiness) => {

@@ -35,29 +35,30 @@ export default function FoodCardComponent(props) {
                     alt={props.business.name}
                 />
             </Card.Section>
+            <Card.Section style={{ overflowY: 'auto' }} className='cardInfo'>
+                <Group justify="space-between" mt="md" mb="xs">
+                    <Text fw={500}>{props.business.name}</Text>
+                    {userData !== 'null' && <SaveFoodButtonComponent businessId={props.business.id} user={userData} savedBusinesses={savedBusinesses}></SaveFoodButtonComponent>}
+                </Group>
+                <Group mb="xs">
+                    <img src={getRatingPNG(props.business.rating)} alt={props.business.rating + " rating"} />
+                    <p>({props.business.review_count} reviews)</p>
+                </Group>
 
-            <Group justify="space-between" mt="md" mb="xs">
-                <Text fw={500}>{props.business.name}</Text>
-                {userData !== 'null' && <SaveFoodButtonComponent businessId={props.business.id} user={userData} savedBusinesses={savedBusinesses}></SaveFoodButtonComponent>}
-            </Group>
-            <Group mb="xs">
-                <img src={getRatingPNG(props.business.rating)} alt={props.business.rating + " rating"} />
-                <p>({props.business.review_count} reviews)</p>
-            </Group>
+                {props.business.location.display_address.map((string, index) => (
+                    <Text size="sm" c="dimmed" key={index}>
+                        {string}
+                    </Text>
+                ))}
 
-            {props.business.location.display_address.map((string, index) => (
-                <Text size="sm" c="dimmed" key={index}>
-                    {string}
-                </Text>
-            ))}
+                {!props.isWinner && <Button onClick={handleClick} color="blue" fullWidth mt="auto" radius="md">
+                    Select
+                </Button>}
 
-            {!props.isWinner && <Button onClick={handleClick} color="blue" fullWidth mt="auto" radius="md">
-                Select
-            </Button>}
-
-            {props.isWinner && <Button onClick={tryAgainClick} color="blue" fullWidth mt="auto" radius="md">
-                Try Again?
-            </Button>}
+                {props.isWinner && <Button onClick={tryAgainClick} color="blue" fullWidth mt="auto" radius="md">
+                    Try Again?
+                </Button>}
+            </Card.Section>
         </Card>
     );
 }
