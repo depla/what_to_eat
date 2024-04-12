@@ -43,3 +43,19 @@ module.exports.googleLogout = async (req, res) => {
     res.clearCookie('jwt');
     res.status(200).send("Logout Successful")
 }
+
+module.exports.googleGetUserData = async (req, res) => {
+    try {
+        const ticket = await client.verifyIdToken({
+            idToken: req.cookies.jwt,
+            audience: CLIENT_ID,
+        });
+        const payload = ticket.getPayload();
+        const user = { name: payload['name'], email: payload['email'], picture: payload['picture'] }
+
+        res.status(200).send(user);
+    } catch (error) {
+        console.error('Error Logging In', error);
+        res.status(500).send('Internal server error');
+    }
+}
