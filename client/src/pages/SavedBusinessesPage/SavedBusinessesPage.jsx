@@ -54,7 +54,7 @@ export default function SavedBusinessesPage() {
                     if (!fetchedData[id]) {
                         setTimeout(() => {
                             fetchDataForId(id);
-                        }, 1000); // Delay of 1 second
+                        }, 2000); // Delay of 2 seconds
                     }
                 });
             }
