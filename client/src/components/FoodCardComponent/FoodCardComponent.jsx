@@ -15,7 +15,7 @@ import { useLocalStorageContext } from '../../contexts/LocalStorageContext';
 
 export default function FoodCardComponent(props) {
 
-    const userData = props.user;
+    const isLoggedIn = props.isLoggedIn;
     const savedBusinesses = props.savedBusinesses;
 
     const handleClick = () => {
@@ -38,7 +38,7 @@ export default function FoodCardComponent(props) {
             <Card.Section style={{ overflowY: 'auto' }} className='cardInfo'>
                 <Group justify="space-between" mt="md" mb="xs">
                     <Text fw={500}>{props.business.name}</Text>
-                    {userData !== 'null' && <SaveFoodButtonComponent businessId={props.business.id} user={userData} savedBusinesses={savedBusinesses}></SaveFoodButtonComponent>}
+                    {isLoggedIn && <SaveFoodButtonComponent businessId={props.business.id} savedBusinesses={savedBusinesses}></SaveFoodButtonComponent>}
                 </Group>
                 <Group mb="xs">
                     <img src={getRatingPNG(props.business.rating)} alt={props.business.rating + " rating"} />

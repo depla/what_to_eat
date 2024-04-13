@@ -9,7 +9,9 @@ export default function GoogleLoginComponent(props) {
                 try {
                     const tokenId = credentialResponse.credential;
                     const res = await axios.post('/api/auth/google/login', { tokenId });
-                    props.updateLocalStorage(res.data);
+                    if (res.status === 200) {
+                        props.updateLocalStorage(true);
+                    }
                 } catch (error) {
                     console.error('Error logging in:', error);
                 }

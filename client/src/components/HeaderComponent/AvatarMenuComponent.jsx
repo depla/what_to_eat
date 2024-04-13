@@ -9,7 +9,8 @@ import axios from 'axios';
 export default function AvatarMenuComponent(props) {
 
     const logout = async () => {
-        props.updateLocalStorage(null)
+        // props.updateLocalStorage(null)
+        props.updateLocalStorage(false)
         const res = await axios.post('/api/auth/google/logout');
     }
 

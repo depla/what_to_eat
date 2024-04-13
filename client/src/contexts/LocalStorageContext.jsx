@@ -6,13 +6,13 @@ const LocalStorageContext = createContext();
 // Step 2: Create a context provider component
 export const LocalStorageProvider = ({ children }) => {
     const [localStorageData, setLocalStorageData] = useState(
-        localStorage.getItem('user') || null
+        JSON.parse(localStorage.getItem('isLoggedIn')) || false
     );
 
     // Listen for changes in local storage
     useEffect(() => {
         const handleStorageChange = () => {
-            setLocalStorageData(localStorage.getItem('user') || null);
+            setLocalStorageData(JSON.parse(localStorage.getItem('isLoggedIn')) || false);
         };
 
         window.addEventListener('storage', handleStorageChange);

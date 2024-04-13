@@ -8,7 +8,7 @@ import { useLocalStorageContext } from '../../contexts/LocalStorageContext';
 export default function ChoosePage() {
     const { state } = useLocation();
     var businesses = state?.businesses;
-    const userData = useLocalStorageContext();
+    const isLoggedIn = useLocalStorageContext();
 
     const [choices, setChoices] = useState(getRandomItemsFromArray(businesses, 20));
     const [savedBusinesses, setSavedBusinesses] = useState(null);
@@ -24,17 +24,16 @@ export default function ChoosePage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                console.log(userData)
                 const response = await axios.get('/api/businesses');
                 setSavedBusinesses(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
-        if (userData && userData != 'null') {
+        if (isLoggedIn) {
             fetchData();
         }
-    }, [userData]);
+    }, [isLoggedIn]);
 
     const handleLeftChildClick = (chosenBusiness) => {
         // console.log('Data from clicked child:', chosenBusiness);
@@ -63,15 +62,15 @@ export default function ChoosePage() {
         return (
             <div className='winner'>
                 <p>You've chosen:</p>
-                <FoodCardComponent onClick={handleLeftChildClick} business={choices[winner]} isWinner={true} user={userData} savedBusinesses={savedBusinesses}></FoodCardComponent>
+                <FoodCardComponent onClick={handleLeftChildClick} business={choices[winner]} isWinner={true} isLoggedIn={isLoggedIn} savedBusinesses={savedBusinesses}></FoodCardComponent>
             </div>
         )
     }
 
     return (
         <div className='choose'>
-            <FoodCardComponent onClick={handleLeftChildClick} business={choices[leftPointer]} isWinner={false} user={userData} savedBusinesses={savedBusinesses}></FoodCardComponent>
-            <FoodCardComponent onClick={handleRightChildClick} business={choices[rightPointer]} isWinner={false} user={userData} savedBusinesses={savedBusinesses}></FoodCardComponent>
+            <FoodCardComponent onClick={handleLeftChildClick} business={choices[leftPointer]} isWinner={false} isLoggedIn={isLoggedIn} savedBusinesses={savedBusinesses}></FoodCardComponent>
+            <FoodCardComponent onClick={handleRightChildClick} business={choices[rightPointer]} isWinner={false} isLoggedIn={isLoggedIn} savedBusinesses={savedBusinesses}></FoodCardComponent>
         </div>
     );
 

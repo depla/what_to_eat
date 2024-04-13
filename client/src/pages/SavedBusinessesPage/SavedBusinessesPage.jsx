@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 export default function SavedBusinessesPage() {
-    const userData = useLocalStorageContext();
+    const isLoggedIn = useLocalStorageContext();
     const [savedBusinessIds, setSavedBusinessIds] = useState(null);
 
     // State to store fetched data
@@ -62,14 +62,13 @@ export default function SavedBusinessesPage() {
                 console.error('Error fetching data:', error);
             }
         }
-
-        if (userData && userData != 'null') {
+        if (isLoggedIn) {
             fetchData();
         }
         else {
             setSavedBusinessIds(null);
         }
-    }, [userData]);
+    }, [isLoggedIn]);
 
     // Update localStorage whenever fetchedData changes
     useEffect(() => {
@@ -79,7 +78,7 @@ export default function SavedBusinessesPage() {
         }));
     }, [fetchedData]);
 
-    if (userData && userData != 'null') {
+    if (isLoggedIn) {
         return (
             <div className="savedBusinessesPage">
                 {savedBusinessIds && (
@@ -94,7 +93,7 @@ export default function SavedBusinessesPage() {
                                 <FoodCardComponent
                                     key={id}
                                     business={business}
-                                    user={userData}
+                                    isLoggedIn={isLoggedIn}
                                     savedBusinesses={savedBusinessIds}
                                 ></FoodCardComponent>
                             ))}

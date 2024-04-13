@@ -51,11 +51,11 @@ module.exports.googleGetUserData = async (req, res) => {
             audience: CLIENT_ID,
         });
         const payload = ticket.getPayload();
-        const user = { name: payload['name'], email: payload['email'], picture: payload['picture'] }
+        const user = { name: payload['name'], picture: payload['picture'] }
 
         res.status(200).send(user);
     } catch (error) {
-        console.error('Error Logging In', error);
-        res.status(500).send('Internal server error');
+        console.error('Error Getting User Data', error);
+        res.status(401).send('Not Authorized');
     }
 }
