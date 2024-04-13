@@ -57,35 +57,50 @@ export default function ChoosePage() {
         // console.log(leftPointer + " " + rightPointer)
     };
 
-    if (winner !== -1) {
+    if (choices.length > 0) {
+
+        if (winner !== -1) {
+
+            return (
+                <div className='winner'>
+                    <p>You've chosen:</p>
+                    <FoodCardComponent onClick={handleLeftChildClick} business={choices[winner]} isWinner={true} isLoggedIn={isLoggedIn} savedBusinesses={savedBusinesses}></FoodCardComponent>
+                </div>
+            )
+        }
 
         return (
-            <div className='winner'>
-                <p>You've chosen:</p>
-                <FoodCardComponent onClick={handleLeftChildClick} business={choices[winner]} isWinner={true} isLoggedIn={isLoggedIn} savedBusinesses={savedBusinesses}></FoodCardComponent>
+            <div className='choose'>
+                <FoodCardComponent onClick={handleLeftChildClick} business={choices[leftPointer]} isWinner={false} isLoggedIn={isLoggedIn} savedBusinesses={savedBusinesses}></FoodCardComponent>
+                <FoodCardComponent onClick={handleRightChildClick} business={choices[rightPointer]} isWinner={false} isLoggedIn={isLoggedIn} savedBusinesses={savedBusinesses}></FoodCardComponent>
+            </div>
+        );
+    }
+    else {
+        return (
+            <div>
+                Oops nothing to show here! Please enter your search first.
             </div>
         )
     }
 
-    return (
-        <div className='choose'>
-            <FoodCardComponent onClick={handleLeftChildClick} business={choices[leftPointer]} isWinner={false} isLoggedIn={isLoggedIn} savedBusinesses={savedBusinesses}></FoodCardComponent>
-            <FoodCardComponent onClick={handleRightChildClick} business={choices[rightPointer]} isWinner={false} isLoggedIn={isLoggedIn} savedBusinesses={savedBusinesses}></FoodCardComponent>
-        </div>
-    );
-
 }
 
 function getRandomItemsFromArray(array, numItems) {
-    // Copy the original array to avoid modifying it
-    const shuffledArray = [...array];
+    if (array) {
+        // Copy the original array to avoid modifying it
+        const shuffledArray = [...array];
 
-    // Fisher-Yates (Knuth) Shuffle Algorithm
-    for (let i = shuffledArray.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+        // Fisher-Yates (Knuth) Shuffle Algorithm
+        for (let i = shuffledArray.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+        }
+
+        // Return the first 'numItems' elements
+        return shuffledArray.slice(0, numItems);
     }
-
-    // Return the first 'numItems' elements
-    return shuffledArray.slice(0, numItems);
+    else {
+        return []
+    }
 }
