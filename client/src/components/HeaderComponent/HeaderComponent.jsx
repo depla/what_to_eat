@@ -1,15 +1,12 @@
 import React from 'react';
 import './HeaderComponent.css';
 import GoogleLoginComponent from "../GoogleIdComponent/GoogleLoginComponent";
-import GoogleLogoutComponent from '../GoogleIdComponent/GoogleLogoutComponent';
 import useLocalStorage from '../../customHooks/useLocalStorage';
-import { Avatar } from '@mantine/core';
 import AvatarMenuComponent from './AvatarMenuComponent';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 export default function HeaderComponent() {
-    // const [userData, setUserData] = useLocalStorage('user', null);
     const [userData, setUserData] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useLocalStorage('isLoggedIn', false);
     const updateLocalStorage = (loggedIn) => {
