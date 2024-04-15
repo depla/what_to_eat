@@ -36,11 +36,11 @@ export default function FoodCardComponent(props) {
                 />
             </Card.Section>
             <Card.Section style={{ overflowY: 'auto' }} className='cardInfo'>
-                <Group justify="space-between" mt="md" mb="xs">
+                <Group justify="space-between">
                     <Text fw={500}>{props.business.name}</Text>
                     {isLoggedIn && <SaveFoodButtonComponent businessId={props.business.id} savedBusinesses={savedBusinesses}></SaveFoodButtonComponent>}
                 </Group>
-                <Group mb="xs">
+                <Group>
                     <img src={getRatingPNG(props.business.rating)} alt={props.business.rating + " rating"} />
                     <p>({props.business.review_count} reviews)</p>
                 </Group>

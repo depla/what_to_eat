@@ -5,20 +5,45 @@ const yelpClient = yelp.client(apiKey);
 
 module.exports.getYelpRecs = async (req, res) => {
     const { search, location } = req.body;
-    const searchRequest = {
-        term: search,
-        location: location,
-        sort_by: 'best_match',
-        limit: 50,
-        radius: 8000
-    };
-    yelpClient.search(searchRequest)
-        .then((response) => {
-            res.send(JSON.stringify(response.jsonBody));
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+    const limit = 50
+    const maxResults = 50
+    var data = null;
+
+    const fetchRecs = async () => {
+        var numFound = 0;
+        for (var offset = 0; offset < maxResults; offset += limit) {
+            const searchRequest = {
+                term: search,
+                location: location,
+                sort_by: 'best_match',
+                limit: limit,
+                radius: 8000,
+                offset: offset,
+                open_now: true
+            };
+            await yelpClient.search(searchRequest)
+                .then((response) => {
+                    numFound = response.jsonBody['businesses'].length;
+                    if (data === null) {
+                        data = response.jsonBody;
+                    }
+                    else {
+                        data['businesses'].push(...response.jsonBody['businesses']);
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            if (numFound < limit) {
+                break;
+            }
+        }
+    }
+
+    await fetchRecs().then(() => {
+        res.send(JSON.stringify(data));
+    })
+
 }
 
 module.exports.getYelpBusiness = async (req, res) => {

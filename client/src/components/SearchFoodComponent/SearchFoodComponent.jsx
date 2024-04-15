@@ -24,9 +24,7 @@ export default function SearchFoodComponent() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            console.log(formData)
             const response = await axios.post('/api/search-food', formData);
-            console.log(response.data);
             navigateTo('/choose', { state: response.data });
             // Handle successful response
         } catch (error) {

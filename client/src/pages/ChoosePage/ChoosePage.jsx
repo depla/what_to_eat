@@ -13,12 +13,10 @@ export default function ChoosePage() {
     const [choices, setChoices] = useState(getRandomItemsFromArray(businesses, 20));
     const [savedBusinesses, setSavedBusinesses] = useState(null);
 
-    // console.log("choices", choices)
-    // console.log("business", businesses)
+
     const [leftPointer, setLeftPointer] = useState(0);
     const [rightPointer, setRightPointer] = useState(choices.length - 1);
     const [winner, setWinner] = useState(-1);
-    // console.log(choices)
 
     //Need to get all saved businesses in a list from database
     useEffect(() => {
@@ -36,25 +34,21 @@ export default function ChoosePage() {
     }, [isLoggedIn]);
 
     const handleLeftChildClick = (chosenBusiness) => {
-        // console.log('Data from clicked child:', chosenBusiness);
         if (rightPointer > 0 && (rightPointer - 1) > leftPointer) {
             setRightPointer(prevRight => prevRight - 1);
         }
         else {
             setWinner(leftPointer)
         }
-        // console.log(leftPointer + " " + rightPointer)
     };
 
     const handleRightChildClick = (chosenBusiness) => {
-        // console.log('Data from clicked child:', chosenBusiness);
         if (leftPointer < choices.length - 1 && (leftPointer + 1) < rightPointer) {
             setLeftPointer(prevLeft => prevLeft + 1);
         }
         else {
             setWinner(rightPointer)
         }
-        // console.log(leftPointer + " " + rightPointer)
     };
 
     if (choices.length > 0) {
