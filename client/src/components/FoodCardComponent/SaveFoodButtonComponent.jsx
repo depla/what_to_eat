@@ -15,10 +15,8 @@ export default function SaveFoodButtonComponent(props) {
 
     const handleClick = async () => {
         if (isSaved) {
-            console.log("going to unsave ", props.businessId)
             try {
                 const res = await axios.delete('/api/businesses', { data: { businessId: props.businessId } });
-                console.log(res);
                 savedBusinesses = savedBusinesses.filter(item => item !== props.businessId)
                 setIsSaved(false)
             } catch (error) {
@@ -26,10 +24,8 @@ export default function SaveFoodButtonComponent(props) {
             }
         }
         else {
-            console.log("going to save ", props.businessId)
             try {
                 const res = await axios.post('/api/businesses', { businessId: props.businessId });
-                console.log(res);
                 savedBusinesses = savedBusinesses.push(props.businessId)
                 setIsSaved(true)
             } catch (error) {

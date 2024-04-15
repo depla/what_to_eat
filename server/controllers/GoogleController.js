@@ -17,7 +17,7 @@ module.exports.googleLogin = async (req, res) => {
         const payload = ticket.getPayload();
         const user = { name: payload['name'], picture: payload['picture'] }
         // Set HTTP-only cookie with JWT token
-        res.cookie('jwt', tokenId, { httpOnly: true });
+        res.cookie('jwt', tokenId, { httpOnly: true, secure: true });
 
         //Add to DB if new user
         const existingEntry = await prisma.user.findUnique({
