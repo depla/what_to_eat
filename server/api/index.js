@@ -7,9 +7,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-const yelpRoutes = require('./routes/YelpRoutes');
-const googleRoutes = require('./routes/GoogleRoutes');
-const businessesRoutes = require('./routes/BusinessesRoutes');
+const yelpRoutes = require('../routes/YelpRoutes');
+const googleRoutes = require('../routes/GoogleRoutes');
+const businessesRoutes = require('../routes/BusinessesRoutes');
 
 app.use('/api', yelpRoutes);
 app.use('/api', googleRoutes);
