@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       // '/api': 'http://localhost:3000' // Adjust the port if your Express server is running on a different port
-      '/': 'https://what-to-eat-zeta-nine.vercel.app/' // Adjust the port if your Express server is running on a different port
+      '/': 'https://what-to-eat-zeta-nine.vercel.app' // Adjust the port if your Express server is running on a different port
     }
   }
 })
