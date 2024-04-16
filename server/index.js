@@ -15,6 +15,8 @@ app.use('/api', yelpRoutes);
 app.use('/api', googleRoutes);
 app.use('/api/businesses', businessesRoutes);
 
+app.get("/", (req, res) => res.send("Express on Vercel"));
+
 app.listen(3000, () => {
     console.log("Serving on port 3000");
 })
