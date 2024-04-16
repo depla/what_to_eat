@@ -10,11 +10,11 @@ datasource db {
 model User {
   id               Int                 @id @default(autoincrement())
   email            String              @unique(map: "email") @db.VarChar(320)
-  saved_businesses SavedYelpBusiness[]
+  saved_businesses SavedYelpBusiness[] @relation("SavedYelpBusinessToUser")
 }
 
 model SavedYelpBusiness {
   id          Int    @id @default(autoincrement())
   business_id String @unique(map: "saved_business_id") @db.VarChar(50)
-  users       User[]
+  users       User[] @relation("SavedYelpBusinessToUser")
 }
