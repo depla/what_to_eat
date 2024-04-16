@@ -24,7 +24,7 @@ export default function SearchFoodComponent() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('/api/search-food', formData);
+            const response = await axios.post('https://what-to-eat-nine.vercel.app/api/search-food', formData);
             navigateTo('/choose', { state: response.data });
             // Handle successful response
         } catch (error) {
