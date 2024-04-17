@@ -1,11 +1,13 @@
 const express = require("express");
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+var cors = require('cors')
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(cors())
 
 const yelpRoutes = require('../routes/YelpRoutes');
 const googleRoutes = require('../routes/GoogleRoutes');
