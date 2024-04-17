@@ -4,7 +4,7 @@ const apiKey = process.env.YELP_API_KEY;
 const yelpClient = yelp.client(apiKey);
 
 module.exports.getYelpRecs = async (req, res) => {
-    const { search, location } = req.body;
+    const { search, location } = req.query;
     const limit = 50
     const maxResults = 50
     var data = null;
