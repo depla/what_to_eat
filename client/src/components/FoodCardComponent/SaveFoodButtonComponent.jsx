@@ -1,6 +1,7 @@
 import { Chip, rem } from '@mantine/core';
 import { IconBookmark } from '@tabler/icons-react';
 import React, { useState, useEffect } from 'react';
+import Environment from '../../utils/Environment';
 import axios from 'axios';
 
 export default function SaveFoodButtonComponent(props) {
@@ -16,7 +17,7 @@ export default function SaveFoodButtonComponent(props) {
     const handleClick = async () => {
         if (isSaved) {
             try {
-                const res = await axios.delete('/api/businesses', { data: { businessId: props.businessId } });
+                const res = await axios.delete(Environment.getServerBaseUrl() + '/api/businesses', { withCredentials: true, data: { businessId: props.businessId } });
                 savedBusinesses = savedBusinesses.filter(item => item !== props.businessId)
                 setIsSaved(false)
             } catch (error) {
@@ -25,7 +26,7 @@ export default function SaveFoodButtonComponent(props) {
         }
         else {
             try {
-                const res = await axios.post('/api/businesses', { businessId: props.businessId });
+                const res = await axios.post(Environment.getServerBaseUrl() + '/api/businesses', { businessId: props.businessId }, { withCredentials: true });
                 savedBusinesses = savedBusinesses.push(props.businessId)
                 setIsSaved(true)
             } catch (error) {

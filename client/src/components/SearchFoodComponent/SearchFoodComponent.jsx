@@ -2,6 +2,7 @@ import { Input } from '@mantine/core';
 import { Button } from '@mantine/core';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Environment from '../../utils/Environment';
 import axios from 'axios';
 
 import './SearchFoodComponent.css';
@@ -24,7 +25,7 @@ export default function SearchFoodComponent() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://what-to-eat-zeta-nine.vercel.app/api/search-food', formData);
+            const response = await axios.post(Environment.getServerBaseUrl() + '/api/search-food', formData);
             navigateTo('/choose', { state: response.data });
             // Handle successful response
         } catch (error) {

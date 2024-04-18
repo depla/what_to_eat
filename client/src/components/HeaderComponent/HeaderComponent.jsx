@@ -4,6 +4,7 @@ import GoogleLoginComponent from "../GoogleIdComponent/GoogleLoginComponent";
 import useLocalStorage from '../../customHooks/useLocalStorage';
 import AvatarMenuComponent from './AvatarMenuComponent';
 import { useState, useEffect } from 'react';
+import Environment from '../../utils/Environment';
 import axios from 'axios';
 
 export default function HeaderComponent() {
@@ -14,13 +15,13 @@ export default function HeaderComponent() {
     }
 
     const logout = async () => {
-        const res = await axios.post('/api/auth/google/logout');
+        const res = await axios.post(Environment.getServerBaseUrl() + '/api/auth/google/logout', null, { withCredentials: true });
     }
 
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axios.get('/api/auth/google/user-data');
+                const response = await axios.get(Environment.getServerBaseUrl() + '/api/auth/google/user-data', { withCredentials: true });
                 setUserData(response.data);
             } catch (error) {
                 console.error('Error fetching user data:', error);

@@ -2,6 +2,7 @@ import './SavedBusinessesPage.css'
 import { useLocalStorageContext } from '../../contexts/LocalStorageContext';
 import FoodCardComponent from '../../components/FoodCardComponent/FoodCardComponent';
 import React, { useState, useEffect } from 'react';
+import Environment from '../../utils/Environment';
 import axios from 'axios';
 
 export default function SavedBusinessesPage() {
@@ -29,7 +30,7 @@ export default function SavedBusinessesPage() {
     const fetchDataForId = async (id) => {
         try {
             // Fetch data from API for the ID
-            const response = await axios.post('/api/find-business', { businessId: id });
+            const response = await axios.post(Environment.getServerBaseUrl() + '/api/find-business', { businessId: id });
             const newData = response.data;
 
             // Update state with fetched data
@@ -46,7 +47,7 @@ export default function SavedBusinessesPage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('/api/businesses');
+                const response = await axios.get(Environment.getServerBaseUrl() + '/api/businesses', { withCredentials: true });
                 setSavedBusinessIds(response.data);
                 // Fetch data for each ID with a delay between API calls
                 response.data.forEach((id) => {

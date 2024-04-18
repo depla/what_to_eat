@@ -4,6 +4,7 @@ import {
     IconBookmark,
 } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
+import Environment from '../../utils/Environment';
 import axios from 'axios';
 
 export default function AvatarMenuComponent(props) {
@@ -11,7 +12,7 @@ export default function AvatarMenuComponent(props) {
     const logout = async () => {
         // props.updateLocalStorage(null)
         props.updateLocalStorage(false)
-        const res = await axios.post('/api/auth/google/logout');
+        const res = await axios.post(Environment.getServerBaseUrl() + '/api/auth/google/logout', null, { withCredentials: true });
     }
 
     return (

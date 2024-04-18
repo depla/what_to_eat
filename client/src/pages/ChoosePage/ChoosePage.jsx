@@ -4,6 +4,7 @@ import axios from 'axios';
 import './ChoosePage.css'
 import FoodCardComponent from '../../components/FoodCardComponent/FoodCardComponent';
 import { useLocalStorageContext } from '../../contexts/LocalStorageContext';
+import Environment from '../../utils/Environment';
 
 export default function ChoosePage() {
     const { state } = useLocation();
@@ -22,7 +23,7 @@ export default function ChoosePage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('/api/businesses');
+                const response = await axios.get(Environment.getServerBaseUrl() + '/api/businesses', { withCredentials: true });
                 setSavedBusinesses(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);
