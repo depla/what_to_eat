@@ -11,7 +11,6 @@ app.use(cookieParser());
 
 const environment = app.get('env');
 const origin = environment === "production" ? process.env.FRONT_END_PROD_BASE_URL : process.env.FRONT_END_DEV_BASE_URL;
-console.log(environment, process.env.FRONT_END_PROD_BASE_URL, process.env.FRONT_END_DEV_BASE_URL);
 app.use(cors({
     origin: origin,
     credentials: true,
