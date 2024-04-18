@@ -17,7 +17,7 @@ module.exports.googleLogin = async (req, res) => {
         const user = { name: payload['name'], picture: payload['picture'] }
         // Set HTTP-only cookie with JWT token
         const expirationDate = new Date(Date.now() + 24 * 60 * 60 * 1000);
-        res.cookie('jwt', tokenId, { httpOnly: true, secure: true, expires: expirationDate, sameSite: "None" });
+        res.cookie('jwt', tokenId, { httpOnly: true, secure: true, expires: expirationDate, sameSite: "Lax" });
         //Add to DB if new user
         const existingEntry = await prisma.user.findUnique({
             where: {
@@ -39,6 +39,7 @@ module.exports.googleLogin = async (req, res) => {
 }
 
 module.exports.googleLogout = async (req, res) => {
+    console.log("got here,  gonna delete cookes")
     res.clearCookie('jwt');
     res.status(200).send("Logout Successful")
 }
