@@ -22,7 +22,8 @@ module.exports.googleLogin = async (req, res) => {
         console.log("the payyyy load", payload)
         const user = { name: payload['name'], picture: payload['picture'] }
         // Set HTTP-only cookie with JWT token
-        res.cookie('jwt', tokenId, { httpOnly: true, secure: true });
+        const expirationDate = new Date(Date.now() + 24 * 60 * 60 * 1000);
+        res.cookie('jwt', tokenId, { httpOnly: true, secure: true, expires: expirationDate, });
         console.log("after cookie set. origin:", origin)
         //Add to DB if new user
         const existingEntry = await prisma.user.findUnique({
