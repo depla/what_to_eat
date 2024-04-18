@@ -2,10 +2,13 @@ require("dotenv").config();
 const axios = require('axios');
 const { OAuth2Client } = require('google-auth-library');
 const { PrismaClient } = require('@prisma/client');
+const express = require("express");
 
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const client = new OAuth2Client(CLIENT_ID);
 const prisma = new PrismaClient();
+const app = express();
+const origin = app.get('env') === "production" ? process.env.FRONT_END_PROD_BASE_URL : process.env.FRONT_END_DEV_BASE_URL;
 
 module.exports.googleLogin = async (req, res) => {
     const { tokenId } = req.body;
@@ -19,8 +22,8 @@ module.exports.googleLogin = async (req, res) => {
         console.log("the payyyy load", payload)
         const user = { name: payload['name'], picture: payload['picture'] }
         // Set HTTP-only cookie with JWT token
-        res.cookie('jwt', "ygtyfrdes4567678huyg", { httpOnly: true, secure: true });
-        console.log("after cookie set")
+        res.cookie('jwt', tokenId, { httpOnly: true, secure: true, origin: origin });
+        console.log("after cookie set. origin:", origin)
         //Add to DB if new user
         const existingEntry = await prisma.user.findUnique({
             where: {
