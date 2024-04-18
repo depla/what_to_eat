@@ -9,6 +9,7 @@ const prisma = new PrismaClient();
 
 module.exports.googleLogin = async (req, res) => {
     const { tokenId } = req.body;
+    console.log("trying to log in token id:", tokenId);
     try {
         const ticket = await client.verifyIdToken({
             idToken: tokenId,
