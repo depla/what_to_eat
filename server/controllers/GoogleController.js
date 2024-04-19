@@ -20,9 +20,7 @@ module.exports.googleLogin = async (req, res) => {
         const user = { name: payload['name'], picture: payload['picture'] }
         // Set HTTP-only cookie with JWT token
         const expirationDate = new Date(Date.now() + 24 * 60 * 60 * 1000);
-        console.log("setting cookie")
         res.cookie('jwt', tokenId, { httpOnly: true, secure: true, expires: expirationDate, origin: origin, sameSite: "none" });
-        console.log("after set cookie, origin:", origin, process.env.FRONT_END_PROD_BASE_URL, process.env.FRONT_END_DEV_BASE_URL)
         //Add to DB if new user
         const existingEntry = await prisma.user.findUnique({
             where: {
@@ -44,13 +42,11 @@ module.exports.googleLogin = async (req, res) => {
 }
 
 module.exports.googleLogout = async (req, res) => {
-    console.log("got here,  gonna delete cookes")
     res.clearCookie('jwt', { httpOnly: true, secure: true, origin: origin, sameSite: "none" });
     res.status(200).send("Logout Successful")
 }
 
 module.exports.googleGetUserData = async (req, res) => {
-    console.log("trying to get user data", req)
     try {
         const ticket = await client.verifyIdToken({
             idToken: req.cookies.jwt,
