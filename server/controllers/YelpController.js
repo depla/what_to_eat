@@ -4,7 +4,7 @@ const apiKey = process.env.YELP_API_KEY;
 const yelpClient = yelp.client(apiKey);
 
 module.exports.getYelpRecs = async (req, res) => {
-    const { search, location } = req.body;
+    const { search, location, isOpen } = req.body;
     const limit = 50
     const maxResults = 50
     var data = null;
@@ -19,7 +19,7 @@ module.exports.getYelpRecs = async (req, res) => {
                 limit: limit,
                 radius: 8000,
                 offset: offset,
-                open_now: true
+                open_now: isOpen
             };
             await yelpClient.search(searchRequest)
                 .then((response) => {
