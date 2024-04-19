@@ -35,7 +35,7 @@ export default function FoodCardComponent(props) {
                     alt={props.business.name}
                 />
             </Card.Section>
-            <Card.Section style={{ overflowY: 'auto' }} className='cardInfo'>
+            <Card.Section style={{ overflowY: 'auto' }} className={props.isWinner === undefined ? 'cardInfoNoButton' : 'cardInfo'}>
                 <Text fw={500}>{props.business.name}</Text>
                 {isLoggedIn && <SaveFoodButtonComponent businessId={props.business.id} savedBusinesses={savedBusinesses}></SaveFoodButtonComponent>}
                 <Group>
