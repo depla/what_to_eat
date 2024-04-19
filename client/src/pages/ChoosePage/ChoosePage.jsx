@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './ChoosePage.css'
@@ -73,9 +73,12 @@ export default function ChoosePage() {
     }
     else {
         return (
-            <div>
-                Oops nothing to show here! Please enter your search first.
+            <div className='noSearch'>
+                <p>
+                    Oops nothing to show here! Please enter your <a href="/" className='link'>search</a> first.
+                </p>
             </div>
+
         )
     }
 

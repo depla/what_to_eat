@@ -66,7 +66,6 @@ module.exports.getSavedBusinesses = async (req, res) => {
     });
 
     const businessIds = savedBusinesses.saved_businesses.map(savedBusiness => savedBusiness.business_id);
-    console.log(businessIds)
     res.send(businessIds)
 }
 

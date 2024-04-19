@@ -105,7 +105,7 @@ export default function SavedBusinessesPage() {
     }
     else {
         return (
-            <div className="savedBusinessesPage" >
+            <div className="savedBusinessesPageLoggedOut" >
                 You are logged out. Please log in to view your saved businesses!
             </div>
         );

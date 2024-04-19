@@ -36,10 +36,8 @@ export default function FoodCardComponent(props) {
                 />
             </Card.Section>
             <Card.Section style={{ overflowY: 'auto' }} className='cardInfo'>
-                <Group justify="space-between">
-                    <Text fw={500}>{props.business.name}</Text>
-                    {isLoggedIn && <SaveFoodButtonComponent businessId={props.business.id} savedBusinesses={savedBusinesses}></SaveFoodButtonComponent>}
-                </Group>
+                <Text fw={500}>{props.business.name}</Text>
+                {isLoggedIn && <SaveFoodButtonComponent businessId={props.business.id} savedBusinesses={savedBusinesses}></SaveFoodButtonComponent>}
                 <Group>
                     <img src={getRatingPNG(props.business.rating)} alt={props.business.rating + " rating"} />
                     <p>({props.business.review_count} reviews)</p>
@@ -51,11 +49,11 @@ export default function FoodCardComponent(props) {
                     </Text>
                 ))}
 
-                {!props.isWinner && <Button onClick={handleClick} color="blue" fullWidth mt="auto" radius="md">
+                {props.isWinner === false && <Button onClick={handleClick} color="blue" fullWidth mt="auto" radius="md">
                     Select
                 </Button>}
 
-                {props.isWinner && <Button onClick={tryAgainClick} color="blue" fullWidth mt="auto" radius="md">
+                {props.isWinner === true && <Button onClick={tryAgainClick} color="blue" fullWidth mt="auto" radius="md">
                     Try Again?
                 </Button>}
             </Card.Section>
