@@ -45,7 +45,7 @@ module.exports.googleLogin = async (req, res) => {
 
 module.exports.googleLogout = async (req, res) => {
     console.log("got here,  gonna delete cookes")
-    res.clearCookie('jwt');
+    res.clearCookie('jwt', { httpOnly: true, secure: true, origin: origin, sameSite: "none" });
     res.status(200).send("Logout Successful")
 }
 
