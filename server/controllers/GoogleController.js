@@ -50,6 +50,7 @@ module.exports.googleLogout = async (req, res) => {
 }
 
 module.exports.googleGetUserData = async (req, res) => {
+    console.log("trying to get user data", req)
     try {
         const ticket = await client.verifyIdToken({
             idToken: req.cookies.jwt,
