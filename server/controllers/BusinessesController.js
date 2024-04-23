@@ -7,7 +7,7 @@ module.exports.createSavedBusiness = async (req, res) => {
     const userEmail = res.locals.userEmail;
 
     // Check if the saved Yelp business already exists
-    var savedBusiness = await prisma.savedYelpBusiness.findUnique({
+    var savedBusiness = await prisma.savedBusiness.findUnique({
         where: {
             business_id: businessId
         }
@@ -15,7 +15,7 @@ module.exports.createSavedBusiness = async (req, res) => {
 
     // If the business doesn't exist, create a new saved Yelp business
     if (!savedBusiness) {
-        savedBusiness = await prisma.savedYelpBusiness.create({
+        savedBusiness = await prisma.savedBusiness.create({
             data: {
                 business_id: businessId
             }
@@ -101,9 +101,8 @@ module.exports.deleteSavedBusiness = async (req, res) => {
                     }
                 }
             });
-            console.log("Yelp business unsaved successfully");
         } else {
-            console.error("Yelp business not found in user's saved businesses");
+            console.error("Business not found in user's saved businesses");
         }
     } else {
         console.error("User not found");

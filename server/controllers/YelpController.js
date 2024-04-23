@@ -48,7 +48,6 @@ module.exports.getYelpRecs = async (req, res) => {
 
 module.exports.getYelpBusiness = async (req, res) => {
     const { businessId } = req.body;
-    console.log("got here", businessId)
     yelpClient.business(businessId).then(response => {
         console.log(response.jsonBody);
         res.send(response.jsonBody);
