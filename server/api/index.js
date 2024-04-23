@@ -19,10 +19,13 @@ app.use(cors({
 const yelpRoutes = require('../routes/YelpRoutes');
 const googleRoutes = require('../routes/GoogleRoutes');
 const businessesRoutes = require('../routes/BusinessesRoutes');
+const foursquareRoutes = require('../routes/FoursquareRoutes')
 
 app.use('/api', yelpRoutes);
 app.use('/api', googleRoutes);
 app.use('/api/businesses', businessesRoutes);
+app.use('/api/foursquare', foursquareRoutes);
+
 
 app.get("/", (req, res) => res.send("Express on Vercel"));
 

@@ -101,9 +101,9 @@ module.exports.deleteSavedBusiness = async (req, res) => {
                     }
                 }
             });
-            console.log("Yelp business unsaved successfully");
+            console.log("Business unsaved successfully");
         } else {
-            console.error("Yelp business not found in user's saved businesses");
+            console.error("Business not found in user's saved businesses");
         }
     } else {
         console.error("User not found");
