@@ -101,7 +101,6 @@ module.exports.deleteSavedBusiness = async (req, res) => {
                     }
                 }
             });
-            console.log("Business unsaved successfully");
         } else {
             console.error("Business not found in user's saved businesses");
         }
