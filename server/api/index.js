@@ -30,5 +30,5 @@ app.use('/api/foursquare', foursquareRoutes);
 app.get("/", (req, res) => res.send("Express on Vercel"));
 
 app.listen(3000, () => {
-    console.log("Serving on port 3000!");
+    console.log("Serving on port 3000");
 })
