@@ -1,9 +1,11 @@
 require("dotenv").config();
 const express = require("express");
+const jwt = require('jsonwebtoken');
 const { OAuth2Client } = require('google-auth-library');
 const { PrismaClient } = require('@prisma/client');
 
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const client = new OAuth2Client(CLIENT_ID);
 const prisma = new PrismaClient();
 const app = express();
@@ -19,8 +21,9 @@ module.exports.googleLogin = async (req, res) => {
         const payload = ticket.getPayload();
         const user = { name: payload['name'], picture: payload['picture'] }
         // Set HTTP-only cookie with JWT token
+        const tokenSigned = jwt.sign(tokenId, CLIENT_SECRET);
         const expirationDate = new Date(Date.now() + 24 * 60 * 60 * 1000);
-        res.cookie('jwt', tokenId, { httpOnly: true, secure: true, expires: expirationDate, origin: origin, sameSite: "none" });
+        res.cookie('jwt', tokenSigned, { httpOnly: true, secure: true, expires: expirationDate, origin: origin, sameSite: "none" });
         //Add to DB if new user
         const existingEntry = await prisma.user.findUnique({
             where: {
@@ -48,8 +51,9 @@ module.exports.googleLogout = async (req, res) => {
 
 module.exports.googleGetUserData = async (req, res) => {
     try {
+        const tokenDecoded = jwt.verify(req.cookies.jwt, CLIENT_SECRET);
         const ticket = await client.verifyIdToken({
-            idToken: req.cookies.jwt,
+            idToken: tokenDecoded,
             audience: CLIENT_ID,
         });
         const payload = ticket.getPayload();
