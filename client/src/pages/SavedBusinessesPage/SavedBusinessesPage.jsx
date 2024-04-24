@@ -80,9 +80,9 @@ export default function SavedBusinessesPage() {
     }, [fetchedData]);
 
     if (isLoggedIn) {
-        return (
-            <div className="savedBusinessesPage">
-                {savedBusinessIds && (
+        if (savedBusinessIds && savedBusinessIds.length > 0) {
+            return (
+                <div className="savedBusinessesPage">
                     <div className="cardContainer">
                         {Object.entries(fetchedData)
                             .filter(([id]) => savedBusinessIds.includes(id))
@@ -96,12 +96,20 @@ export default function SavedBusinessesPage() {
                                     business={business}
                                     isLoggedIn={isLoggedIn}
                                     savedBusinesses={savedBusinessIds}
-                                ></FoodCardComponent>
+                                />
                             ))}
                     </div>
-                )}
-            </div>
-        );
+
+                </div>
+            );
+        }
+        else if (savedBusinessIds && savedBusinessIds.length == 0) {
+            return (
+                <div className='noneSaved'>
+                    Nothing has been saved yet!
+                </div>
+            )
+        }
     }
     else {
         return (
