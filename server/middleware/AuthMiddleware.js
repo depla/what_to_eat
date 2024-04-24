@@ -1,14 +1,17 @@
 require("dotenv").config();
+const jwt = require('jsonwebtoken');
 const { OAuth2Client } = require('google-auth-library');
 
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const client = new OAuth2Client(CLIENT_ID);
 
 
 module.exports.validateJwt = async (req, res, next) => {
     try {
+        const tokenDecoded = jwt.verify(req.cookies.jwt, CLIENT_SECRET);
         const ticket = await client.verifyIdToken({
-            idToken: req.cookies.jwt,
+            idToken: tokenDecoded,
             audience: CLIENT_ID,
         });
         const payload = ticket.getPayload();
