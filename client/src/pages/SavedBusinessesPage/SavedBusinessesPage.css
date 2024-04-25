@@ -16,6 +16,7 @@
 }
 
 .cardContainer {
+    background-color: #fbc4c3;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
