@@ -41,6 +41,9 @@ module.exports.getYelpRecs = async (req, res) => {
     }
 
     await fetchRecs().then(() => {
+        data.businesses.forEach(business => {
+            business.location.display_address = business.location.display_address.join(" ");
+        });
         res.send(JSON.stringify(data));
     })
 

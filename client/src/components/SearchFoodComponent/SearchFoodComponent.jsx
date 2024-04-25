@@ -37,7 +37,8 @@ export default function SearchFoodComponent() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(Environment.getServerBaseUrl() + '/api/foursquare/search-food', formData);
+            // const response = await axios.post(Environment.getServerBaseUrl() + '/api/foursquare/search-food', formData);
+            const response = await axios.post(Environment.getServerBaseUrl() + '/api/search-food', formData);
             navigateTo('/choose', { state: response.data });
             // Handle successful response
         } catch (error) {
