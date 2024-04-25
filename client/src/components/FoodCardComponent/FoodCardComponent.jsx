@@ -41,7 +41,7 @@ export default function FoodCardComponent(props) {
                 <Group>
                     <img src={getRatingPNG(props.business.rating)} alt={props.business.rating + " rating"} />
                     {/* <Rating value={props.business.rating} fractions={2} readOnly /> */}
-                    <p>({props.business.review_count} reviews)</p>
+                    <div>({props.business.review_count} reviews)</div>
                 </Group>
 
                 {/* {props.business.location.display_address.map((string, index) => (
@@ -53,11 +53,11 @@ export default function FoodCardComponent(props) {
                     {props.business.location.display_address}
                 </Text>
 
-                {props.isWinner === false && <Button onClick={handleClick} color="blue" fullWidth mt="auto" radius="md">
+                {props.isWinner === false && <Button className='cardButton' onClick={handleClick} color="blue" fullWidth mt="auto" radius="md">
                     Select
                 </Button>}
 
-                {props.isWinner === true && <Button onClick={tryAgainClick} color="blue" fullWidth mt="auto" radius="md">
+                {props.isWinner === true && <Button className='cardButton' onClick={tryAgainClick} color="blue" fullWidth mt="auto" radius="md">
                     Try Again?
                 </Button>}
             </Card.Section>
