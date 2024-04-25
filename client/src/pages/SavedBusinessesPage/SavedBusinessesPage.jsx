@@ -61,6 +61,9 @@ export default function SavedBusinessesPage() {
                 });
             }
             catch (error) {
+                if (error.response.status === 401) {
+                    location.reload();
+                }
                 console.error('Error fetching data:', error);
             }
         }
