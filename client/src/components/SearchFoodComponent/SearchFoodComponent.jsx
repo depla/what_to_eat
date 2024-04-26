@@ -38,11 +38,10 @@ export default function SearchFoodComponent() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        var isValidFields = false;
-        isValidFields = validateField(formData.search, setSearchError, "Please enter what you would like to search for.");
-        isValidFields = validateField(formData.location, setLocationError, "Please enter a location.");
+        const isValidSearch = validateField(formData.search, setSearchError, "Please enter what you would like to search for.");
+        const isValidLocation = validateField(formData.location, setLocationError, "Please enter a location.");
 
-        if (isValidFields) {
+        if (isValidSearch && isValidLocation) {
             try {
                 // const response = await axios.post(Environment.getServerBaseUrl() + '/api/foursquare/search-food', formData);
                 const response = await axios.post(Environment.getServerBaseUrl() + '/api/search-food', formData);
