@@ -41,10 +41,15 @@ module.exports.getYelpRecs = async (req, res) => {
     }
 
     await fetchRecs().then(() => {
-        data.businesses.forEach(business => {
-            business.location.display_address = business.location.display_address.join(" ");
-        });
-        res.send(JSON.stringify(data));
+        try {
+            data.businesses.forEach(business => {
+                business.location.display_address = business.location.display_address.join(" ");
+            });
+            res.send(JSON.stringify(data));
+        } catch (error) {
+            console.error('Finding location error', error);
+            res.status(400).send('Bad request');
+        }
     })
 
 }

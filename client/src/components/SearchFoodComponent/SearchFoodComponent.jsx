@@ -9,8 +9,10 @@ import ToggleComponent from '../SharedComponent/ToggleComponent';
 import './SearchFoodComponent.css';
 
 export default function SearchFoodComponent() {
-    const defaultIsOpen = true;
+    const defaultIsOpen = false;
     const [isOpenToggled, setIsOpenToggled] = useState(defaultIsOpen);
+    const [searchError, setSearchError] = useState("");
+    const [locationError, setLocationError] = useState("");
 
     const [formData, setFormData] = useState({
         search: '',
@@ -36,14 +38,18 @@ export default function SearchFoodComponent() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            // const response = await axios.post(Environment.getServerBaseUrl() + '/api/foursquare/search-food', formData);
-            const response = await axios.post(Environment.getServerBaseUrl() + '/api/search-food', formData);
-            navigateTo('/choose', { state: response.data });
-            // Handle successful response
-        } catch (error) {
-            console.error('Error:', error);
-            // Handle error
+        var isValidFields = false;
+        isValidFields = validateField(formData.search, setSearchError, "Please enter what you would like to search for.");
+        isValidFields = validateField(formData.location, setLocationError, "Please enter a location.");
+
+        if (isValidFields) {
+            try {
+                // const response = await axios.post(Environment.getServerBaseUrl() + '/api/foursquare/search-food', formData);
+                const response = await axios.post(Environment.getServerBaseUrl() + '/api/search-food', formData);
+                navigateTo('/choose', { state: response.data });
+            } catch (error) {
+                console.error('Error:', error);
+            }
         }
     };
 
@@ -51,12 +57,26 @@ export default function SearchFoodComponent() {
         setIsOpenToggled(isOpen);
     }
 
+    const validateField = (field, setter, message) => {
+        var isValid = false;
+
+        if (field === "") {
+            setter(message);
+        }
+        else {
+            setter("");
+            isValid = true;
+        }
+
+        return isValid;
+    }
+
     return (
         <form className="searchForm" onSubmit={handleSubmit}>
-            <Input.Wrapper label="Search" description="What would you like to look for?" size="xl">
+            <Input.Wrapper label="Search" description="What would you like to look for?" size="md" error={searchError}>
                 <Input placeholder="Restaurants" type="text" name="search" value={formData.search} onChange={handleChange} />
             </Input.Wrapper>
-            <Input.Wrapper label="Location" description="Where would you want to look?" size="xl">
+            <Input.Wrapper label="Location" description="Where would you want to look?" size="md" error={locationError}>
                 <Input placeholder="Los Angeles CA" type="text" name="location" value={formData.location} onChange={handleChange} />
             </Input.Wrapper>
             <ToggleComponent label="Open now?" value={isOpenToggled} onClick={onIsOpenToggleClick} defaultVal={defaultIsOpen} />
