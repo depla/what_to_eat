@@ -72,10 +72,10 @@ export default function SearchFoodComponent() {
 
     return (
         <form className="searchForm" onSubmit={handleSubmit}>
-            <Input.Wrapper label="Search" description="What would you like to look for?" size="md" error={searchError}>
+            <Input.Wrapper label="Search" description="What would you like to look for?" size="xl" error={searchError}>
                 <Input placeholder="Restaurants" type="text" name="search" value={formData.search} onChange={handleChange} />
             </Input.Wrapper>
-            <Input.Wrapper label="Location" description="Where would you want to look?" size="md" error={locationError}>
+            <Input.Wrapper label="Location" description="Where would you want to look?" size="xl" error={locationError}>
                 <Input placeholder="Los Angeles CA" type="text" name="location" value={formData.location} onChange={handleChange} />
             </Input.Wrapper>
             <ToggleComponent label="Open now?" value={isOpenToggled} onClick={onIsOpenToggleClick} defaultVal={defaultIsOpen} />
