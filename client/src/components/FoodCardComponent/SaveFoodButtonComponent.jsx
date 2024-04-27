@@ -15,6 +15,7 @@ export default function SaveFoodButtonComponent(props) {
     }, [savedBusinesses, props.businessId]);
 
     const handleClick = async () => {
+        if (props.onSaveButtonClick) props.onSaveButtonClick(true);
         if (isSaved) {
             try {
                 const res = await axios.delete(Environment.getServerBaseUrl() + '/api/businesses', { withCredentials: true, data: { businessId: props.businessId } });
@@ -33,6 +34,7 @@ export default function SaveFoodButtonComponent(props) {
                 console.error('Error in saving business', error);
             }
         }
+        if (props.onSaveButtonClick) props.onSaveButtonClick(false);
     };
 
     return (

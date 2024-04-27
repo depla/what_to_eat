@@ -37,7 +37,7 @@ export default function FoodCardComponent(props) {
             </Card.Section>
             <Card.Section style={{ overflowY: 'auto' }} className={props.isWinner === undefined ? 'cardInfoNoButton' : 'cardInfo'}>
                 <Text fw={500}>{props.business.name}</Text>
-                {isLoggedIn && <SaveFoodButtonComponent businessId={props.business.id} savedBusinesses={savedBusinesses}></SaveFoodButtonComponent>}
+                {isLoggedIn && <SaveFoodButtonComponent businessId={props.business.id} savedBusinesses={savedBusinesses} onSaveButtonClick={props.onSaveButtonClick}></SaveFoodButtonComponent>}
                 <Group>
                     <img src={getRatingPNG(props.business.rating)} alt={props.business.rating + " rating"} />
                     {/* <Rating value={props.business.rating} fractions={2} readOnly /> */}
@@ -53,11 +53,11 @@ export default function FoodCardComponent(props) {
                     {props.business.location.display_address}
                 </Text>
 
-                {props.isWinner === false && <Button className='cardButton' onClick={handleClick} color="blue" fullWidth mt="auto" radius="md">
+                {props.isWinner === false && <Button className='cardButton' onClick={handleClick} color="blue" fullWidth mt="auto" radius="md" loading={props.isLoading}>
                     Select
                 </Button>}
 
-                {props.isWinner === true && <Button className='cardButton' onClick={tryAgainClick} color="blue" fullWidth mt="auto" radius="md">
+                {props.isWinner === true && <Button className='cardButton' onClick={tryAgainClick} color="blue" fullWidth mt="auto" radius="md" loading={props.isLoading}>
                     Try Again?
                 </Button>}
             </Card.Section>

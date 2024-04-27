@@ -13,6 +13,7 @@ export default function ChoosePage() {
 
     const [choices, setChoices] = useState(getRandomItemsFromArray(businesses, 20));
     const [savedBusinesses, setSavedBusinesses] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
 
     const [leftPointer, setLeftPointer] = useState(0);
@@ -52,6 +53,10 @@ export default function ChoosePage() {
         }
     };
 
+    const onSaveButtonClick = (isLoading) => {
+        setIsLoading(isLoading);
+    }
+
     if (choices.length > 0) {
 
         if (winner !== -1) {
@@ -59,15 +64,41 @@ export default function ChoosePage() {
             return (
                 <div className='winner'>
                     <p>You've chosen:</p>
-                    <FoodCardComponent onClick={handleLeftChildClick} business={choices[winner]} isWinner={true} isLoggedIn={isLoggedIn} savedBusinesses={savedBusinesses}></FoodCardComponent>
+                    <FoodCardComponent
+                        onClick={handleLeftChildClick}
+                        business={choices[winner]}
+                        isWinner={true} isLoggedIn={isLoggedIn}
+                        savedBusinesses={savedBusinesses}
+                        isLoading={isLoading}
+                        onSaveButtonClick={onSaveButtonClick}>
+
+                    </FoodCardComponent>
                 </div>
             )
         }
 
         return (
             <div className='choose'>
-                <FoodCardComponent onClick={handleLeftChildClick} business={choices[leftPointer]} isWinner={false} isLoggedIn={isLoggedIn} savedBusinesses={savedBusinesses}></FoodCardComponent>
-                <FoodCardComponent onClick={handleRightChildClick} business={choices[rightPointer]} isWinner={false} isLoggedIn={isLoggedIn} savedBusinesses={savedBusinesses}></FoodCardComponent>
+                <FoodCardComponent
+                    onClick={handleLeftChildClick}
+                    business={choices[leftPointer]}
+                    isWinner={false}
+                    isLoggedIn={isLoggedIn}
+                    savedBusinesses={savedBusinesses}
+                    isLoading={isLoading}
+                    onSaveButtonClick={onSaveButtonClick}>
+
+                </FoodCardComponent>
+                <FoodCardComponent
+                    onClick={handleRightChildClick}
+                    business={choices[rightPointer]}
+                    isWinner={false}
+                    isLoggedIn={isLoggedIn}
+                    savedBusinesses={savedBusinesses}
+                    isLoading={isLoading}
+                    onSaveButtonClick={onSaveButtonClick}>
+
+                </FoodCardComponent>
             </div>
         );
     }
