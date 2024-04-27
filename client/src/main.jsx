@@ -4,13 +4,17 @@ import App from './App.jsx'
 import './index.css'
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { LocalStorageProvider } from './contexts/LocalStorageContext';
+import { MantineProvider } from '@mantine/core';
+import theme from './theme.js';
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   // <React.StrictMode>
   <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
     <LocalStorageProvider>
-      <App />
+      <MantineProvider theme={theme}>
+        <App />
+      </MantineProvider>
     </LocalStorageProvider>
   </GoogleOAuthProvider>
   // </React.StrictMode>,

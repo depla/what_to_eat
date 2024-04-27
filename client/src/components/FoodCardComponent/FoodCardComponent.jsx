@@ -53,11 +53,11 @@ export default function FoodCardComponent(props) {
                     {props.business.location.display_address}
                 </Text>
 
-                {props.isWinner === false && <Button className='cardButton' onClick={handleClick} color="blue" fullWidth mt="auto" radius="md" loading={props.isLoading}>
+                {props.isWinner === false && <Button className='cardButton' onClick={handleClick} fullWidth mt="auto" radius="md" loading={props.isLoading}>
                     Select
                 </Button>}
 
-                {props.isWinner === true && <Button className='cardButton' onClick={tryAgainClick} color="blue" fullWidth mt="auto" radius="md" loading={props.isLoading}>
+                {props.isWinner === true && <Button className='cardButton' onClick={tryAgainClick} fullWidth mt="auto" radius="md" loading={props.isLoading}>
                     Try Again?
                 </Button>}
             </Card.Section>
