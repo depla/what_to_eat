@@ -45,9 +45,8 @@ export default function SearchFoodComponent() {
         if (isValidSearch && isValidLocation) {
             try {
                 setIsSubmitLoading(true);
-                // const response = await axios.post(Environment.getServerBaseUrl() + '/api/foursquare/search-food', formData);
+                const response = await axios.post(Environment.getServerBaseUrl() + '/api/foursquare/search-food', formData);
                 // const response = await axios.post(Environment.getServerBaseUrl() + '/api/search-food', formData);
-                const response = await axios.post(Environment.getServerBaseUrl() + '/api/google/search-food', formData);
                 setIsSubmitLoading(false);
                 navigateTo('/choose', { state: response.data });
             } catch (error) {

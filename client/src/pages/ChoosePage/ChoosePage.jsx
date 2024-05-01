@@ -11,7 +11,7 @@ export default function ChoosePage() {
     var businesses = state?.businesses;
     const isLoggedIn = useLocalStorageContext();
 
-    const [choices, setChoices] = useState(getRandomItemsFromArray(businesses, 15));
+    const [choices, setChoices] = useState(getRandomItemsFromArray(businesses, 20));
     const [savedBusinesses, setSavedBusinesses] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -34,10 +34,6 @@ export default function ChoosePage() {
             fetchData();
         }
     }, [isLoggedIn]);
-
-
-
-
 
     const handleLeftChildClick = async (chosenBusiness) => {
         if (rightPointer > 0 && (rightPointer - 1) > leftPointer) {

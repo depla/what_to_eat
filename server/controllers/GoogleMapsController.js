@@ -50,7 +50,6 @@ const fetchAllPlaces = async (metadata) => {
         const initialResults = await fetchPlaces(metadata);
         places = [...places, ...initialResults.results];
         nextPageToken = initialResults.next_page_token || null;
-        console.log("init results:", places.length, nextPageToken)
 
         // Fetch subsequent pages if available
         while (numCalls < maxCalls && nextPageToken) {

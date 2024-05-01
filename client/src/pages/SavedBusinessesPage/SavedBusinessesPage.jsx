@@ -10,30 +10,28 @@ export default function SavedBusinessesPage() {
     const [savedBusinessIds, setSavedBusinessIds] = useState(null);
 
     // State to store fetched data
-    // const [fetchedData, setFetchedData] = useState(() => {
-    //     // Retrieve cached data from localStorage
-    //     const cachedData = localStorage.getItem('savedBusinesses');
-    //     if (cachedData) {
-    //         const { data, timestamp } = JSON.parse(cachedData);
-    //         // Check if the cached data has expired (e.g., expires after 24 hours)
-    //         if (Date.now() - timestamp < 3600000 * 24) {
-    //             return data;
-    //         } else {
-    //             // Clear expired data from localStorage
-    //             localStorage.removeItem('savedBusinesses');
-    //         }
-    //     }
-    //     return {};
-    // });
-    const [fetchedData, setFetchedData] = useState([]);
+    const [fetchedData, setFetchedData] = useState(() => {
+        // Retrieve cached data from localStorage
+        const cachedData = localStorage.getItem('savedBusinesses');
+        if (cachedData) {
+            const { data, timestamp } = JSON.parse(cachedData);
+            // Check if the cached data has expired (e.g., expires after 24 hours)
+            if (Date.now() - timestamp < 3600000 * 24) {
+                return data;
+            } else {
+                // Clear expired data from localStorage
+                localStorage.removeItem('savedBusinesses');
+            }
+        }
+        return {};
+    });
 
     // Function to fetch data for an ID if not already fetched
     const fetchDataForId = async (id) => {
         try {
             // Fetch data from API for the ID
-            // const response = await axios.post(Environment.getServerBaseUrl() + '/api/foursquare/find-business', { businessId: id });
+            const response = await axios.post(Environment.getServerBaseUrl() + '/api/foursquare/find-business', { businessId: id });
             // const response = await axios.post(Environment.getServerBaseUrl() + '/api/find-business', { businessId: id });
-            const response = await axios.post(Environment.getServerBaseUrl() + '/api/google/find-business', { businessId: id });
             const newData = response.data;
 
             // Update state with fetched data
@@ -78,12 +76,12 @@ export default function SavedBusinessesPage() {
     }, [isLoggedIn]);
 
     // Update localStorage whenever fetchedData changes
-    // useEffect(() => {
-    //     localStorage.setItem('savedBusinesses', JSON.stringify({
-    //         data: fetchedData,
-    //         timestamp: Date.now()
-    //     }));
-    // }, [fetchedData]);
+    useEffect(() => {
+        localStorage.setItem('savedBusinesses', JSON.stringify({
+            data: fetchedData,
+            timestamp: Date.now()
+        }));
+    }, [fetchedData]);
 
     if (isLoggedIn) {
         if (savedBusinessIds && savedBusinessIds.length > 0) {

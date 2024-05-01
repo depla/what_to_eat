@@ -11,79 +11,11 @@ import './FoodCardComponent.css'
 // import fourHalfRating from "../../assets/Review Ribbon/Desktop/small_16/Review_Ribbon_small_16_4_half.png"
 // import fiveRating from "../../assets/Review Ribbon/Desktop/small_16/Review_Ribbon_small_16_5.png"
 import SaveFoodButtonComponent from './SaveFoodButtonComponent';
-import Environment from '../../utils/Environment';
-import { useState, useEffect } from 'react';
 
 export default function FoodCardComponent(props) {
 
     const isLoggedIn = props.isLoggedIn;
     const savedBusinesses = props.savedBusinesses;
-
-    // for loading google photos
-    const [isLoadingImages, setIsLoadingImages] = useState(false);
-
-    //for getting google photos and reviews url
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const photoReference = props.business.image_url;
-                setIsLoadingImages(true);
-                if (props.onLoadingAction) props.onLoadingAction(true);
-                var photoUrl = await getPhotoUrl(photoReference);
-                props.business.image_url = photoUrl;
-
-                if (!props.business.url) {
-                    const response = await getGoogleReviewsUrl(props.business.id);
-                    const data = await response.json();
-                    props.business.url = data.result.url;
-                }
-                setIsLoadingImages(false);
-                if (props.onLoadingAction) props.onLoadingAction(false);
-            } catch (error) {
-                console.error('Error fetching photos:', error);
-            }
-        }
-
-        // if displaying the winner dont get new data
-        if (!props.isWinner) fetchData();
-    }, [props.business]);
-
-    // for getting google photos
-    const getPhotoUrl = async (photoReference) => {
-        try {
-            const response = await fetch(Environment.getServerBaseUrl() + '/api/google/photo',
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ photoReference })
-                });
-            const blob = await response.blob();
-            const url = URL.createObjectURL(blob);
-
-            return url;
-        } catch (error) {
-            console.log("Error", error);
-        }
-    }
-
-    const getGoogleReviewsUrl = async (businessId) => {
-        try {
-            const response = await fetch(Environment.getServerBaseUrl() + '/api/google/reviews-url',
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ businessId })
-                });
-
-            return response;
-        } catch (error) {
-            console.log("Error", error);
-        }
-    }
 
     const handleClick = () => {
         props.onClick(props.business);
@@ -100,7 +32,7 @@ export default function FoodCardComponent(props) {
                     src={props.business.image_url}
                     height={200}
                     alt={props.business.name}
-                    fallbackSrc={isLoadingImages ? "https://placehold.co/300x300?text=Loading..." : "https://placehold.co/300x300?text=No Photo"}
+                    fallbackSrc={"https://placehold.co/300x300?text=No Photo"}
                 />
             </Card.Section>
             <Card.Section style={{ overflowY: 'auto' }} className={props.isWinner === undefined ? 'cardInfoNoButton' : 'cardInfo'}>
@@ -109,14 +41,9 @@ export default function FoodCardComponent(props) {
                 <Group>
                     {/* <img src={getRatingPNG(props.business.rating)} alt={props.business.rating + " rating"} /> */}
                     <Rating value={props.business.rating} fractions={2} readOnly />
-                    <div>({props.business.review_count} reviews)</div>
+                    {/* <div>({props.business.review_count} reviews)</div> */}
                 </Group>
 
-                {/* {props.business.location.display_address.map((string, index) => (
-                    <Text size="sm" c="dimmed" key={index}>
-                        {string}
-                    </Text>
-                ))} */}
                 <Text size="sm" c="dimmed">
                     {props.business.location.display_address}
                 </Text>
