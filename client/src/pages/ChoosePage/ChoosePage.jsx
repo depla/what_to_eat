@@ -11,14 +11,14 @@ export default function ChoosePage() {
     var businesses = state?.businesses;
     const isLoggedIn = useLocalStorageContext();
 
-    const [choices, setChoices] = useState(getRandomItemsFromArray(businesses, 20));
+    const [choices, setChoices] = useState(getRandomItemsFromArray(businesses, 15));
     const [savedBusinesses, setSavedBusinesses] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-
 
     const [leftPointer, setLeftPointer] = useState(0);
     const [rightPointer, setRightPointer] = useState(choices.length - 1);
     const [winner, setWinner] = useState(-1);
+
 
     //Need to get all saved businesses in a list from database
     useEffect(() => {
@@ -35,7 +35,11 @@ export default function ChoosePage() {
         }
     }, [isLoggedIn]);
 
-    const handleLeftChildClick = (chosenBusiness) => {
+
+
+
+
+    const handleLeftChildClick = async (chosenBusiness) => {
         if (rightPointer > 0 && (rightPointer - 1) > leftPointer) {
             setRightPointer(prevRight => prevRight - 1);
         }
@@ -44,7 +48,7 @@ export default function ChoosePage() {
         }
     };
 
-    const handleRightChildClick = (chosenBusiness) => {
+    const handleRightChildClick = async (chosenBusiness) => {
         if (leftPointer < choices.length - 1 && (leftPointer + 1) < rightPointer) {
             setLeftPointer(prevLeft => prevLeft + 1);
         }
@@ -53,7 +57,7 @@ export default function ChoosePage() {
         }
     };
 
-    const onSaveButtonClick = (isLoading) => {
+    const onLoadingAction = (isLoading) => {
         setIsLoading(isLoading);
     }
 
@@ -65,12 +69,12 @@ export default function ChoosePage() {
                 <div className='winner'>
                     <p>You've chosen:</p>
                     <FoodCardComponent
-                        onClick={handleLeftChildClick}
                         business={choices[winner]}
-                        isWinner={true} isLoggedIn={isLoggedIn}
+                        isWinner={true}
+                        isLoggedIn={isLoggedIn}
                         savedBusinesses={savedBusinesses}
                         isLoading={isLoading}
-                        onSaveButtonClick={onSaveButtonClick}>
+                        onLoadingAction={onLoadingAction}>
 
                     </FoodCardComponent>
                 </div>
@@ -86,7 +90,7 @@ export default function ChoosePage() {
                     isLoggedIn={isLoggedIn}
                     savedBusinesses={savedBusinesses}
                     isLoading={isLoading}
-                    onSaveButtonClick={onSaveButtonClick}>
+                    onLoadingAction={onLoadingAction}>
 
                 </FoodCardComponent>
                 <FoodCardComponent
@@ -96,7 +100,7 @@ export default function ChoosePage() {
                     isLoggedIn={isLoggedIn}
                     savedBusinesses={savedBusinesses}
                     isLoading={isLoading}
-                    onSaveButtonClick={onSaveButtonClick}>
+                    onLoadingAction={onLoadingAction}>
 
                 </FoodCardComponent>
             </div>

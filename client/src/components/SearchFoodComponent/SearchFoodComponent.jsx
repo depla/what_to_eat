@@ -13,6 +13,7 @@ export default function SearchFoodComponent() {
     const [isOpenToggled, setIsOpenToggled] = useState(defaultIsOpen);
     const [searchError, setSearchError] = useState("");
     const [locationError, setLocationError] = useState("");
+    const [isSubmitLoading, setIsSubmitLoading] = useState(false);
 
     const [formData, setFormData] = useState({
         search: '',
@@ -43,8 +44,12 @@ export default function SearchFoodComponent() {
 
         if (isValidSearch && isValidLocation) {
             try {
+                setIsSubmitLoading(true);
                 // const response = await axios.post(Environment.getServerBaseUrl() + '/api/foursquare/search-food', formData);
-                const response = await axios.post(Environment.getServerBaseUrl() + '/api/search-food', formData);
+                // const response = await axios.post(Environment.getServerBaseUrl() + '/api/search-food', formData);
+                const response = await axios.post(Environment.getServerBaseUrl() + '/api/google/search-food', formData);
+                setIsSubmitLoading(false);
+                console.log(response)
                 navigateTo('/choose', { state: response.data });
             } catch (error) {
                 console.error('Error:', error);
@@ -79,7 +84,7 @@ export default function SearchFoodComponent() {
                 <Input placeholder="Los Angeles CA" type="text" name="location" value={formData.location} onChange={handleChange} />
             </Input.Wrapper>
             <ToggleComponent label="Open now?" value={isOpenToggled} onClick={onIsOpenToggleClick} defaultVal={defaultIsOpen} />
-            <Button type="submit" variant="filled">Submit</Button>
+            <Button type="submit" variant="filled" loading={isSubmitLoading}>Submit</Button>
         </form>
     );
 
