@@ -20,3 +20,8 @@
 .cardButton {
     min-height: 40px;
 }
+
+.cardNameSection {
+    display: flex;
+    justify-content: space-between;
+}

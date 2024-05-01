@@ -30,8 +30,8 @@ export default function SavedBusinessesPage() {
     const fetchDataForId = async (id) => {
         try {
             // Fetch data from API for the ID
-            const response = await axios.post(Environment.getServerBaseUrl() + '/api/foursquare/find-business', { businessId: id });
-            // const response = await axios.post(Environment.getServerBaseUrl() + '/api/find-business', { businessId: id });
+            // const response = await axios.post(Environment.getServerBaseUrl() + '/api/foursquare/find-business', { businessId: id });
+            const response = await axios.post(Environment.getServerBaseUrl() + '/api/find-business', { businessId: id });
             const newData = response.data;
 
             // Update state with fetched data

@@ -1,5 +1,4 @@
-import { Input } from '@mantine/core';
-import { Button } from '@mantine/core';
+import { Button, Input } from '@mantine/core';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Environment from '../../utils/Environment';
@@ -45,14 +44,14 @@ export default function SearchFoodComponent() {
         if (isValidSearch && isValidLocation) {
             try {
                 setIsSubmitLoading(true);
-                const response = await axios.post(Environment.getServerBaseUrl() + '/api/foursquare/search-food', formData);
-                // const response = await axios.post(Environment.getServerBaseUrl() + '/api/search-food', formData);
-                setIsSubmitLoading(false);
+                // const response = await axios.post(Environment.getServerBaseUrl() + '/api/foursquare/search-food', formData);
+                const response = await axios.post(Environment.getServerBaseUrl() + '/api/search-food', formData);
                 navigateTo('/choose', { state: response.data });
             } catch (error) {
                 console.error('Error:', error);
             }
         }
+        setIsSubmitLoading(false);
     };
 
     const onIsOpenToggleClick = (isOpen) => {
