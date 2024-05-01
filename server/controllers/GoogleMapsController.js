@@ -92,7 +92,7 @@ module.exports.getGoogleRecs = async (req, res) => {
         query: search,
         location: `${coordinates[1]},${coordinates[0]}`,
         radius: 8000,
-        opennow: isOpen || null,
+        opennow: isOpen,
         key: GOOGLE_MAPS_API_KEY
     }
 
