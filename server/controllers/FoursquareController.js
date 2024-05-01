@@ -1,6 +1,6 @@
 require("dotenv").config();
 const sdk = require('@api/fsq-developers');
-const axios = require('axios');
+const fetchMapData = require('../utils/Geocode');
 
 const apiKey = process.env.FOURSQUARE_API_KEY;
 const IMAGE_SIZE = '300x300'
@@ -19,10 +19,6 @@ const convertFields = (element) => {
     converted.url = element.website || null
 
     return converted;
-}
-
-const fetchMapData = async (location) => {
-    return axios.get(`https://api.geocodify.com/v2/geocode?api_key=${process.env.GEOCODIFY_API_KEY}&q=${location}`);
 }
 
 module.exports.getFoursquareRecs = async (req, res) => {
