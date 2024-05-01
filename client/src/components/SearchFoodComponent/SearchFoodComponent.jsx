@@ -49,7 +49,6 @@ export default function SearchFoodComponent() {
                 // const response = await axios.post(Environment.getServerBaseUrl() + '/api/search-food', formData);
                 const response = await axios.post(Environment.getServerBaseUrl() + '/api/google/search-food', formData);
                 setIsSubmitLoading(false);
-                console.log(response)
                 navigateTo('/choose', { state: response.data });
             } catch (error) {
                 console.error('Error:', error);
