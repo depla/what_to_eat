@@ -8,7 +8,7 @@ module.exports.getYelpRecs = async (req, res) => {
     const limit = 50
     const maxResults = 50
     var data = null;
-    const geoLoc = location === "Current Location" ? coordinates : null;
+    const geoLoc = location.toLowerCase() === "current location" ? coordinates : null;
 
     const fetchRecs = async () => {
         var numFound = 0;

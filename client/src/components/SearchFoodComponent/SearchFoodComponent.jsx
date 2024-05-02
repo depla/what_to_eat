@@ -32,7 +32,7 @@ export default function SearchFoodComponent() {
     const navigateTo = useNavigate();
 
     const handleChange = (e) => {
-        if (e.target.name === "location" && e.target.value === "Current Location") {
+        if (e.target.name === "location" && e.target.value.toLowerCase() === "current location") {
             handleIconClick();
         }
         setFormData({
