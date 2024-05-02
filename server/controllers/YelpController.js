@@ -2,14 +2,13 @@ require("dotenv").config();
 const yelp = require("yelp-fusion");
 const apiKey = process.env.YELP_API_KEY;
 const yelpClient = yelp.client(apiKey);
-const fetchUserLocation = require("../utils/Geolocation");
 
 module.exports.getYelpRecs = async (req, res) => {
-    const { search, location, isOpen } = req.body;
+    const { search, location, isOpen, coordinates } = req.body;
     const limit = 50
     const maxResults = 50
     var data = null;
-    const geoLoc = location === "Current Location" ? await fetchUserLocation() : null;
+    const geoLoc = location === "Current Location" ? coordinates : null;
 
     const fetchRecs = async () => {
         var numFound = 0;
@@ -24,8 +23,8 @@ module.exports.getYelpRecs = async (req, res) => {
             };
 
             if (geoLoc) {
-                searchRequest.latitude = geoLoc.location.lat;
-                searchRequest.longitude = geoLoc.location.lng;
+                searchRequest.latitude = geoLoc[0];
+                searchRequest.longitude = geoLoc[1];
             }
             else {
                 searchRequest.location = location;

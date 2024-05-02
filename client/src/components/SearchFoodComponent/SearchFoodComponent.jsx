@@ -18,7 +18,8 @@ export default function SearchFoodComponent() {
     const [formData, setFormData] = useState({
         search: '',
         location: '',
-        isOpen: isOpenToggled
+        isOpen: isOpenToggled,
+        coordinates: null
     });
 
     useEffect(() => {
@@ -73,9 +74,17 @@ export default function SearchFoodComponent() {
         return isValid;
     }
 
-    const handleIconClick = () => {
+    const showPosition = (position) => {
         // Update the location field in the form data
-        setFormData({ ...formData, location: 'Current Location' });
+        setFormData({ ...formData, location: 'Current Location', coordinates: [position.coords.latitude, position.coords.longitude] });
+    }
+
+    const handleIconClick = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            console.log("Geolocation is not supported by this browser.");
+        }
     };
 
     return (
