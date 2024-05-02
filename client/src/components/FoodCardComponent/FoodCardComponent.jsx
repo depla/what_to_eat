@@ -27,7 +27,7 @@ export default function FoodCardComponent(props) {
     }
 
     return (
-        <Card className="card" shadow="sm" padding="lg" radius="md" withBorder>
+        <Card className="card" shadow="sm" padding="lg" withBorder>
             <Card.Section>
                 <Image
                     src={props.business.image_url}
@@ -61,11 +61,11 @@ export default function FoodCardComponent(props) {
                     {props.business.location.display_address}
                 </Text>
 
-                {props.isWinner === false && <Button className='cardButton' onClick={handleClick} fullWidth mt="auto" radius="md" loading={props.isLoading}>
+                {props.isWinner === false && <Button className='cardButton' onClick={handleClick} fullWidth mt="auto" loading={props.isLoading}>
                     Select
                 </Button>}
 
-                {props.isWinner === true && <Button className='cardButton' onClick={tryAgainClick} fullWidth mt="auto" radius="md" loading={props.isLoading}>
+                {props.isWinner === true && <Button className='cardButton' onClick={tryAgainClick} fullWidth mt="auto" loading={props.isLoading}>
                     Try Again?
                 </Button>}
             </Card.Section>

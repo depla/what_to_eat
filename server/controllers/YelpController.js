@@ -2,25 +2,35 @@ require("dotenv").config();
 const yelp = require("yelp-fusion");
 const apiKey = process.env.YELP_API_KEY;
 const yelpClient = yelp.client(apiKey);
+const fetchUserLocation = require("../utils/Geolocation");
 
 module.exports.getYelpRecs = async (req, res) => {
     const { search, location, isOpen } = req.body;
     const limit = 50
     const maxResults = 50
     var data = null;
+    const geoLoc = location === "Current Location" ? await fetchUserLocation() : null;
 
     const fetchRecs = async () => {
         var numFound = 0;
         for (var offset = 0; offset < maxResults; offset += limit) {
             const searchRequest = {
                 term: search,
-                location: location,
                 sort_by: 'best_match',
                 limit: limit,
                 radius: 8000,
                 offset: offset,
                 open_now: isOpen
             };
+
+            if (geoLoc) {
+                searchRequest.latitude = geoLoc.location.lat;
+                searchRequest.longitude = geoLoc.location.lng;
+            }
+            else {
+                searchRequest.location = location;
+            }
+
             await yelpClient.search(searchRequest)
                 .then((response) => {
                     numFound = response.jsonBody['businesses'].length;

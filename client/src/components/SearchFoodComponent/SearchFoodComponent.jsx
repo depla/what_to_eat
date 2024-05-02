@@ -1,9 +1,10 @@
-import { Button, Input } from '@mantine/core';
+import { Button, TextInput, Input, ActionIcon } from '@mantine/core';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Environment from '../../utils/Environment';
 import axios from 'axios';
 import ToggleComponent from '../SharedComponent/ToggleComponent';
+import { IconMapPin } from '@tabler/icons-react';
 
 import './SearchFoodComponent.css';
 
@@ -72,13 +73,29 @@ export default function SearchFoodComponent() {
         return isValid;
     }
 
+    const handleIconClick = () => {
+        // Update the location field in the form data
+        setFormData({ ...formData, location: 'Current Location' });
+    };
+
     return (
         <form className="searchForm" onSubmit={handleSubmit}>
             <Input.Wrapper label="Search" description="What would you like to look for?" size="xl" error={searchError}>
-                <Input placeholder="Restaurants" type="text" name="search" value={formData.search} onChange={handleChange} />
+                <TextInput placeholder="Restaurants" type="text" name="search" value={formData.search} onChange={handleChange} />
             </Input.Wrapper>
             <Input.Wrapper label="Location" description="Where would you want to look?" size="xl" error={locationError}>
-                <Input placeholder="Los Angeles CA" type="text" name="location" value={formData.location} onChange={handleChange} />
+                <TextInput
+                    placeholder="Los Angeles CA"
+                    type="text"
+                    name="location"
+                    value={formData.location}
+                    onChange={handleChange}
+                    rightSection={
+                        <ActionIcon variant="filled" onClick={handleIconClick}>
+                            <IconMapPin />
+                        </ActionIcon>
+                    }
+                />
             </Input.Wrapper>
             <ToggleComponent label="Open now?" value={isOpenToggled} onClick={onIsOpenToggleClick} defaultVal={defaultIsOpen} />
             <Button type="submit" variant="filled" loading={isSubmitLoading}>Submit</Button>
