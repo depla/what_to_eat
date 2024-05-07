@@ -40,7 +40,7 @@ const fetchPlaces = async (metadata) => {
 }
 
 const fetchAllPlaces = async (metadata) => {
-    const maxCalls = 2;
+    const maxCalls = 3;
     var numCalls = 0;
     var places = [];
     var nextPageToken = null;
