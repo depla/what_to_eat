@@ -1,4 +1,4 @@
-import { createTheme, Button, ActionIcon, Card, TextInput } from '@mantine/core';
+import { createTheme, Button, ActionIcon, Card, TextInput, NativeSelect } from '@mantine/core';
 
 const theme = createTheme({
     components: {
@@ -22,6 +22,11 @@ const theme = createTheme({
             },
         }),
         TextInput: TextInput.extend({
+            defaultProps: {
+                radius: "xl"
+            },
+        }),
+        NativeSelect: NativeSelect.extend({
             defaultProps: {
                 radius: "xl"
             },

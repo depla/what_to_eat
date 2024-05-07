@@ -1,4 +1,4 @@
-import { Button, TextInput, Input, ActionIcon } from '@mantine/core';
+import { Button, TextInput, Input, ActionIcon, NativeSelect } from '@mantine/core';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Environment from '../../utils/Environment';
@@ -10,6 +10,8 @@ import './SearchFoodComponent.css';
 
 export default function SearchFoodComponent() {
     const defaultIsOpen = false;
+    const defaultRadius = '5 Miles';
+
     const [isOpenToggled, setIsOpenToggled] = useState(defaultIsOpen);
     const [searchError, setSearchError] = useState("");
     const [locationError, setLocationError] = useState("");
@@ -19,7 +21,8 @@ export default function SearchFoodComponent() {
         search: '',
         location: '',
         isOpen: isOpenToggled,
-        coordinates: null
+        coordinates: null,
+        radius: defaultRadius
     });
 
     useEffect(() => {
@@ -33,7 +36,7 @@ export default function SearchFoodComponent() {
 
     const handleChange = (e) => {
         if (e.target.name === "location" && e.target.value.toLowerCase() === "current location") {
-            handleIconClick();
+            handleLocationIconClick();
         }
         setFormData({
             ...formData,
@@ -50,7 +53,8 @@ export default function SearchFoodComponent() {
             try {
                 setIsSubmitLoading(true);
                 // const response = await axios.post(Environment.getServerBaseUrl() + '/api/foursquare/search-food', formData);
-                const response = await axios.post(Environment.getServerBaseUrl() + '/api/search-food', formData);
+                // const response = await axios.post(Environment.getServerBaseUrl() + '/api/search-food', formData);
+                const response = await axios.post(Environment.getServerBaseUrl() + '/api/google/search-food', formData);
                 navigateTo('/choose', { state: response.data });
             } catch (error) {
                 console.error('Error:', error);
@@ -82,7 +86,7 @@ export default function SearchFoodComponent() {
         setFormData({ ...formData, location: 'Current Location', coordinates: [position.coords.latitude, position.coords.longitude] });
     }
 
-    const handleIconClick = () => {
+    const handleLocationIconClick = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(showPosition);
         } else {
@@ -92,10 +96,10 @@ export default function SearchFoodComponent() {
 
     return (
         <form className="searchForm" onSubmit={handleSubmit}>
-            <Input.Wrapper label="Search" description="What would you like to look for?" size="xl" error={searchError}>
+            <Input.Wrapper label="Search" description="What would you like to look for?" size="lg" error={searchError}>
                 <TextInput placeholder="Restaurants" type="text" name="search" value={formData.search} onChange={handleChange} />
             </Input.Wrapper>
-            <Input.Wrapper label="Location" description="Where would you want to look?" size="xl" error={locationError}>
+            <Input.Wrapper label="Location" description="Where would you want to look?" size="lg" error={locationError}>
                 <TextInput
                     placeholder="Los Angeles CA"
                     type="text"
@@ -103,11 +107,18 @@ export default function SearchFoodComponent() {
                     value={formData.location}
                     onChange={handleChange}
                     rightSection={
-                        <ActionIcon variant="filled" onClick={handleIconClick}>
+                        <ActionIcon variant="filled" onClick={handleLocationIconClick}>
                             <IconMapPin />
                         </ActionIcon>
                     }
                 />
+            </Input.Wrapper>
+            <Input.Wrapper label="Radius" description="How far would you be willing to go from the location?" size="lg">
+                <NativeSelect
+                    name="radius"
+                    value={formData.radius || defaultRadius}
+                    data={['5 Miles', '10 Miles', '15 Miles', '20 Miles', '25 Miles', '>25 Miles']}
+                    onChange={handleChange} />
             </Input.Wrapper>
             <ToggleComponent label="Open now?" value={isOpenToggled} onClick={onIsOpenToggleClick} defaultVal={defaultIsOpen} />
             <Button type="submit" variant="filled" loading={isSubmitLoading}>Submit</Button>

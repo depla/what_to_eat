@@ -22,7 +22,7 @@ const fetchPlacesWithToken = async (nextPageToken) => {
             }, axios);
         return response.data;
     } catch (error) {
-        console.log("Error", error);
+        console.log("Error fetching places with token:", error);
     }
 }
 
@@ -35,12 +35,12 @@ const fetchPlaces = async (metadata) => {
             }, axios);
         return response.data;
     } catch (error) {
-        console.log("Error", error);
+        console.log("Error fetching places without token:", error);
     }
 }
 
 const fetchAllPlaces = async (metadata) => {
-    const maxCalls = 3;
+    const maxCalls = 2;
     var numCalls = 0;
     var places = [];
     var nextPageToken = null;
@@ -60,9 +60,19 @@ const fetchAllPlaces = async (metadata) => {
             nextPageToken = nextPageResults.next_page_token || null;
         }
     } catch (error) {
-        console.log("Error", error);
+        console.log("Error fetching all places:", error);
     }
     return places;
+}
+
+const convertRadiusMilesToMeters = (miles) => {
+    const number = miles.split(' ')[0];
+
+    // Return the max in meters
+    if (number[0] === '>') return 50000;
+
+    // convert miles to meters
+    return parseInt(number, 10) * 1609.344;
 }
 
 const convertFields = (element) => {
@@ -82,15 +92,16 @@ const convertFields = (element) => {
 }
 
 module.exports.getGoogleRecs = async (req, res) => {
-    const { search, location, isOpen } = req.body;
-    const mapData = await fetchMapData(location);
-    const coordinates = mapData?.data.response.features[0]?.geometry.coordinates;
+    const { search, location, isOpen, coordinates, radius } = req.body;
+    const userLoc = location.toLowerCase() === "current location" ? coordinates : null;
+    const mapData = userLoc === null ? await fetchMapData(location) : null;
+    const geocode = mapData?.data.response.features[0]?.geometry.coordinates;
     var result = {};
     result.businesses = [];
     var metadata = {
         query: search,
-        location: `${coordinates[1]},${coordinates[0]}`,
-        radius: 8000,
+        location: userLoc ? `${userLoc[0]},${userLoc[1]}` : `${geocode[1]},${geocode[0]}`,
+        radius: convertRadiusMilesToMeters(radius),
         opennow: isOpen,
         key: GOOGLE_MAPS_API_KEY
     }

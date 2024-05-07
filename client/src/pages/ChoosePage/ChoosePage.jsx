@@ -11,7 +11,7 @@ export default function ChoosePage() {
     var businesses = state?.businesses;
     const isLoggedIn = useLocalStorageContext();
 
-    const [choices, setChoices] = useState(getRandomItemsFromArray(businesses, 20));
+    const [choices, setChoices] = useState(getRandomItemsFromArray(businesses, 15));
     const [savedBusinesses, setSavedBusinesses] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
