@@ -32,16 +32,16 @@ export default function FoodCardComponent(props) {
                 if (props.onLoadingAction) props.onLoadingAction(true);
                 var photoUrl = await getPhotoUrl(photoReference);
                 props.business.image_url = photoUrl;
+                setIsLoadingImages(false);
 
                 if (!props.business.url) {
                     const response = await getGoogleReviewsUrl(props.business.id);
                     const data = await response.json();
                     props.business.url = data.result.url;
                 }
-                setIsLoadingImages(false);
                 if (props.onLoadingAction) props.onLoadingAction(false);
             } catch (error) {
-                console.error('Error fetching photos:', error);
+                console.error('Error fetching photos or url:', error);
             }
         }
 

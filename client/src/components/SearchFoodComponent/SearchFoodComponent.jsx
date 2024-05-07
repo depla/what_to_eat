@@ -113,7 +113,7 @@ export default function SearchFoodComponent() {
                     }
                 />
             </Input.Wrapper>
-            <Input.Wrapper label="Radius" description="How far would you be willing to go from the location?" size="lg">
+            <Input.Wrapper label="Search Radius" description="How far out would you want to look?" size="lg">
                 <NativeSelect
                     name="radius"
                     value={formData.radius || defaultRadius}
