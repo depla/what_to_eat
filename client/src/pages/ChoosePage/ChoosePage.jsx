@@ -106,7 +106,7 @@ export default function ChoosePage() {
         return (
             <div className='noSearch'>
                 <p>
-                    Oops nothing to show here! Please enter your <a href="/" className='link'>search</a> first.
+                    Oops nothing to show here! Please enter your <a href="/" className='link'>search</a> first or adjust it.
                 </p>
             </div>
 
