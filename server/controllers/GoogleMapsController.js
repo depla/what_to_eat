@@ -13,7 +13,7 @@ function sleep(ms) {
 const fetchPlacesWithToken = async (nextPageToken) => {
     try {
         const response = await googleMapsClient
-            .textSearch({
+            .placesNearby({
                 params: {
                     pagetoken: nextPageToken,
                     key: GOOGLE_MAPS_API_KEY,
@@ -29,7 +29,7 @@ const fetchPlacesWithToken = async (nextPageToken) => {
 const fetchPlaces = async (metadata) => {
     try {
         const response = await googleMapsClient
-            .textSearch({
+            .placesNearby({
                 params: metadata,
                 timeout: 1000 // milliseconds
             }, axios);
@@ -81,7 +81,7 @@ const convertFields = (element) => {
     converted.id = element.place_id;
     converted.name = element.name;
     var location = {};
-    location.display_address = element.formatted_address;
+    location.display_address = element.formatted_address || element.vicinity;
     converted.location = location;
     converted.image_url = element.photos ? element.photos[Math.floor((element.photos.length - 1) / 2)].photo_reference : null;
     converted.rating = element.rating;
@@ -99,9 +99,9 @@ module.exports.getGoogleRecs = async (req, res) => {
     var result = {};
     result.businesses = [];
     var metadata = {
-        query: search,
+        keyword: search,
         location: userLoc ? `${userLoc[0]},${userLoc[1]}` : `${geocode[1]},${geocode[0]}`,
-        radius: convertRadiusMilesToMeters(radius),
+        radius: 8000,
         opennow: isOpen,
         key: GOOGLE_MAPS_API_KEY
     }
@@ -110,9 +110,10 @@ module.exports.getGoogleRecs = async (req, res) => {
         allPlaces.forEach(business => {
             result.businesses.push(convertFields(business));
         });
-        res.send(result);
+        res.status(200).send(result);
     }).catch(error => {
         console.error('Error in getting recommendations from google:', error);
+        res.status(500).send('Error in getting recommendations from google');
     });
 
 
@@ -132,11 +133,12 @@ module.exports.getGoogleBusiness = async (req, res) => {
                 timeout: 1000 // milliseconds
             }, axios);
 
-        res.send(convertFields(response.data.result))
+        res.status(200).send(convertFields(response.data.result));
 
 
     } catch (error) {
-        console.log("Error in getting place details from google:", error)
+        console.log("Error in getting place details from google:", error);
+        res.status(500).send("Error in getting place details from google");
     }
 
 }
@@ -148,9 +150,10 @@ module.exports.getGooglePhotoUrl = async (req, res) => {
         const arrayBuffer = await response.arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
         res.setHeader('Content-Type', 'application/octet-stream');
-        res.send(buffer);
+        res.status(200).send(buffer);
     } catch (error) {
         console.log("Error in getting place photo from google:", error);
+        res.status(500).send("Error in getting place photo from google");
     }
 }
 
@@ -168,11 +171,12 @@ module.exports.getGoogleReviewsUrl = async (req, res) => {
                 timeout: 1000 // milliseconds
             }, axios);
 
-        res.send(response.data)
+        res.status(200).send(response.data)
 
 
     } catch (error) {
         console.log("Error in getting reviews url from google:", error)
+        res.status(500).send("Error in getting reviews url from google");
     }
 
 }
